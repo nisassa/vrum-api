@@ -13,6 +13,19 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, Discards;
 
+    public const SERVICE_PROVIDER_TYPE = 'service_provider';
+
+    /**
+     * @var string
+     */
+    protected $table = 'users';
+
+    /**
+     * @var string
+     */
+    protected $primaryKey = 'id';
+
+
     /**
      * The attributes that are mass assignable.
      *
@@ -29,7 +42,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -39,5 +51,37 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+    ];
+
+    /**
+     * The attributes that are mass visible.
+     *
+     * @var array<int, string>
+     */
+    protected $visible = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'phone',
+        'email_verified_at',
+        'password',
+        'provider_id',
+        'admin',
+        'developer',
+        'discard',
+        'manager',
+        'type',
+        'job_title',
+        'photo',
+        'landline',
+        'line_1',
+        'line_2',
+        'city',
+        'county',
+        'country',
+        'postcode',
+        'lat',
+        'long'
     ];
 }

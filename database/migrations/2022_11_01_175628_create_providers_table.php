@@ -20,7 +20,17 @@ class CreateProvidersTable extends Migration
             $table->string('test_api_key', 255)->nullable();
             $table->string('invoice_email', 255)->nullable();
             $table->tinyInteger('vip')->default(0);
+            $table->tinyInteger('booking_by_specialist')->default(0);
+            $table->tinyInteger('booking_approved_by_provider')->default(0);
             $table->unsignedTinyInteger('discard')->default(0);
+            $table->string('line_1', 255)->nullable();
+            $table->string('line_2', 255)->nullable();
+            $table->string('city', 255)->nullable();
+            $table->string('county', 255)->nullable();
+            $table->string('country', 255)->nullable();
+            $table->string('postcode', 50)->nullable();
+            $table->string('lat', 255)->nullable();
+            $table->string('long', 255)->nullable();
 
             $table->timestamps();
         });

@@ -22,9 +22,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedInteger('provider_id')->nullable()->default(0);
-            $table->unsignedTinyInteger('admin');
-            $table->unsignedTinyInteger('developer');
-            $table->unsignedTinyInteger('discard');
+            $table->unsignedTinyInteger('admin')->default(0);
+            $table->unsignedTinyInteger('developer')->default(0);
+            $table->unsignedTinyInteger('discard')->default(0);
             $table->unsignedTinyInteger('manager')->default(0);
             $table->string('type', 50)->nullable();
             $table->string('job_title', 255)->nullable();
@@ -34,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->string('line_2', 255)->nullable();
             $table->string('city', 255)->nullable();
             $table->string('county', 255)->nullable();
+            $table->string('country', 255)->nullable();
             $table->string('postcode', 50)->nullable();
             $table->string('lat', 255)->nullable();
             $table->string('long', 255)->nullable();
