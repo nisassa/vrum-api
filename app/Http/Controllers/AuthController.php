@@ -5,9 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\{User, Provider};
 
 use App\Http\Requests\Auth\ProviderRegisterRequest;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+
+    public function login(ProviderRegisterRequest $request)
+    {
+
+    }
+
     public function registerProvider(ProviderRegisterRequest $request)
     {
         $input = $request->all();
