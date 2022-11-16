@@ -6,6 +6,7 @@ use App\Models\{User, Provider};
 
 use App\Http\Requests\Auth\ProviderRegisterRequest;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\Auth\ProviderRegistered;
 
 class AuthController extends Controller
 {
@@ -50,8 +51,12 @@ class AuthController extends Controller
             'provider_id' => $provider->id,
             'manager' => 1,
             'type' => User::SERVICE_PROVIDER_TYPE,
-            'password' => $input['password'],
+            'password' => Hash::make($input['password'], [
+                'rounds' => 12,
+            ])
         ]);
+
+        $user->notify(new ProviderRegistered());
 
         return response()->json(['success' => true, 'use_idr' => $user->id]);
     }

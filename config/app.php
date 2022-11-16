@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'client_url' => env('CLIENT_APP_URL', 'http://localhost:3001'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -123,6 +125,9 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    // is set in current time service provider
+    'now' => null,
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers
@@ -174,6 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\CurrentTimeServiceProvider::class,
 
     ],
 
@@ -229,7 +235,5 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
     ],
-
 ];

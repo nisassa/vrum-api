@@ -36,17 +36,31 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Register the exception handling callbacks for the application.
+     * Report or log an exception.
      *
+     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
+     *
+     * @param  \Throwable  $exception
      * @return void
+     * @throws \Throwable
      */
-    public function register()
+    public function report(Throwable $exception)
     {
-        $this->reportable(function (Throwable $e) {
-            parent::report($e);
-        });
+        parent::report($exception);
     }
 
+
+    /**
+     * Convert an authentication exception into an unauthenticated response.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @return \Illuminate\Http\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return response()->json(['errors' => ['Unauthenticated.']], 401);
+    }
 
     /**
      * Render an exception into an HTTP response.
@@ -95,22 +109,10 @@ class Handler extends ExceptionHandler
             ], 403);
         }
 
-        return response()->json([
-            'message' => $exception->getMessage() ?: 'Undefined.'
-        ], 403);
+//        return response()->json([
+//            'message' => $exception->getMessage() ?: 'Undefined.'
+//        ], 403);
 
-//        return parent::render($request, $exception);
-    }
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        return response()->json(['errors' => ['Unauthenticated.']], 401);
+        return parent::render($request, $exception);
     }
 }

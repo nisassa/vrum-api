@@ -11,7 +11,6 @@ class Provider extends Model
 {
     use HasFactory, Discards;
 
-
     /**
      * The table associated with the model.
      *
