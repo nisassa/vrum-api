@@ -2,13 +2,13 @@
 
 namespace App\Mail\Auth;
 
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\User;
 
-class ProviderRegistered extends Mailable
+class ClientRegistered extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,6 +34,6 @@ class ProviderRegistered extends Mailable
     {
         return $this
             ->subject('Welcome to ' . config('app.name'))
-            ->view('emails.auth.provider-registered-to-user');
+            ->view('emails.auth.client-registered-to-user');
     }
 }

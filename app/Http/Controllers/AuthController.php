@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\{User, Provider};
 
-use App\Http\Requests\Auth\ProviderRegisterRequest;
+use App\Http\Requests\Auth\{ProviderRegisterRequest, ClientRegisterRequest};
 use Illuminate\Support\Facades\Hash;
-use App\Notifications\Auth\ProviderRegistered;
+use App\Notifications\Auth\{ProviderRegistered, ClientRegistered};
 
 class AuthController extends Controller
 {
@@ -15,6 +15,34 @@ class AuthController extends Controller
     {
 
     }
+
+    public function registerClient(ClientRegisterRequest $request)
+    {
+        $input = $request->all();
+
+        $user = User::create([
+            'first_name' => $input['first_name'],
+            'last_name' => $input['last_name'],
+            'email' => $input['email'],
+            'phone' => $input['phone'],
+            'line_1' => $input['line_1'] ?? null,
+            'line_2' => $input['line_2'] ?? null,
+            'city' => $input['city'],
+            'county' => $input['county'] ?? null,
+            'country' => $input['country'],
+            'postcode' => $input['postcode'] ?? null,
+            'manager' => 0,
+            'type' => User::CLIENT_TYPE,
+            'password' => Hash::make($input['password'], [
+                'rounds' => 12,
+            ])
+        ]);
+
+        $user->notify(new ClientRegistered());
+
+        return response()->json(['success' => true, 'use_idr' => $user->id]);
+    }
+
 
     public function registerProvider(ProviderRegisterRequest $request)
     {

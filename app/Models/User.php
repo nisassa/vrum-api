@@ -14,6 +14,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, Discards;
 
     public const SERVICE_PROVIDER_TYPE = 'service_provider';
+    public const CLIENT_TYPE = 'client';
 
     /**
      * @var string
