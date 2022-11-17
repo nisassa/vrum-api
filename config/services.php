@@ -30,4 +30,21 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | SDCMS encrypt settings
+    |--------------------------------------------------------------------------
+    |
+    | These settings regulate the encryption settings when setting a password
+    | on the API which isn't for brand new registrations.
+    |
+    */
+
+    'sdcms_encrypt' => [
+        'salt_length' => env('SDCMS_ENCRYPT_SALT_LENGTH', 16),
+        'algorithm' => env('SDCMS_ENCRYPT_ALGORITHM', 'sha256'),
+        'iterations' => env('SDCMS_ENCRYPT_ITERATIONS', 1024),
+        'key_length' => env('SDCMS_ENCRYPT_KEY_LENGTH', 32),
+    ],
+
 ];

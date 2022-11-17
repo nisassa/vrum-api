@@ -83,6 +83,7 @@ class Handler extends ExceptionHandler
         } elseif ($exception instanceof ModelNotFoundException) {
             return response()->json(['errors' => $exception->getMessage()], 404);
         } elseif ($exception instanceof AuthorizationException) {
+            \Log::info($exception);
             $msg = $exception->getMessage() ?: 'Forbidden.';
 
             return response()->json(['errors' => ['forbidden' => [$msg]]], 403);

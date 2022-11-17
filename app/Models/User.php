@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use App\Traits\Discards;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Discards;
+    use HasFactory, Notifiable, Discards;
 
     public const SERVICE_PROVIDER_TYPE = 'service_provider';
     public const CLIENT_TYPE = 'client';

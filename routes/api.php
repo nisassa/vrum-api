@@ -17,14 +17,9 @@ use App\Http\Controllers\AuthController;
 
 Route::name('api.')->group(static function () {
 
-    Route::post('/provider', [AuthController::class, 'registerProvider']);
-    Route::post('/client', [AuthController::class, 'registerClient']);
-
-    Route::post('/login', [AuthController::class, 'logIn']);
-
-//    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//        return $request->user();
-//    });
+    Route::post('/register/provider', [AuthController::class, 'registerProvider']);
+    Route::post('/register/client', [AuthController::class, 'registerClient']);
+    Route::post('/auth/login', [AuthController::class, 'login']);
 
 });
 

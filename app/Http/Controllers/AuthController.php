@@ -4,16 +4,48 @@ namespace App\Http\Controllers;
 
 use App\Models\{User, Provider};
 
-use App\Http\Requests\Auth\{ProviderRegisterRequest, ClientRegisterRequest};
+use App\Http\Requests\Auth\{
+    ProviderRegisterRequest,
+    ClientRegisterRequest,
+    LoginRequest
+};
 use Illuminate\Support\Facades\Hash;
-use App\Notifications\Auth\{ProviderRegistered, ClientRegistered};
+use App\Notifications\Auth\{
+    ProviderRegistered,
+    ClientRegistered
+};
+use ViewberBase\ApiMobileClient;
+use ViewberBase\UserLogin;
 
 class AuthController extends Controller
 {
 
-    public function login(ProviderRegisterRequest $request)
+    public function login(LoginRequest $request)
     {
+        $input = $request->all();
 
+        $user = User::where('email', $input['email'])->first();
+        if (! $user) {
+            return response()->json(['messages' => ['The details you have provided do not match our records.']]);
+        }
+
+        /*use Jenssegers\Agent\Agent;*/
+//        $apiMobileClient = ApiMobileClient::where('live_api_key', $request->input('api_key'))->first();
+//
+//        // Captures what device, browser & os user using.
+//        UserLogin::create([
+//            'user_id' => $user->id,
+//            'app_id' => $apiMobileClient ? $apiMobileClient->id : null,
+//            'device' => $agent->device(),
+//            'browser' => $agent->browser(),
+//            'os' => $agent->platform(),
+//        ]);
+
+        if (app('SdCmsEncryptHelper')->verify($input['password'], $user->password)) {
+            $token = 'good';
+        }
+
+        return response()->json(['success' => true, 'token' => $token ?? null]);
     }
 
     public function registerClient(ClientRegisterRequest $request)
@@ -40,7 +72,7 @@ class AuthController extends Controller
 
         $user->notify(new ClientRegistered());
 
-        return response()->json(['success' => true, 'use_idr' => $user->id]);
+        return response()->json(['success' => true]);
     }
 
 
@@ -79,13 +111,11 @@ class AuthController extends Controller
             'provider_id' => $provider->id,
             'manager' => 1,
             'type' => User::SERVICE_PROVIDER_TYPE,
-            'password' => Hash::make($input['password'], [
-                'rounds' => 12,
-            ])
+            'password' => $input['password'] = app('SdCmsEncryptHelper')->encrypt($input['password'])
         ]);
 
         $user->notify(new ProviderRegistered());
 
-        return response()->json(['success' => true, 'use_idr' => $user->id]);
+        return response()->json(['success' => true]);
     }
 }
