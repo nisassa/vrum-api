@@ -20,7 +20,12 @@ Route::name('api.')->group(static function () {
     Route::post('/register/provider', [AuthController::class, 'registerProvider']);
     Route::post('/register/client', [AuthController::class, 'registerClient']);
     Route::post('/auth/login', [AuthController::class, 'login']);
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
 
+    Route::middleware(['jwt.auth'])->group(function () {
+
+        Route::get('/user/me', [AuthController::class, 'me']);
+    });
 });
 
 

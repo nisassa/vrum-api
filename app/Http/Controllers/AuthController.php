@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\{User, Provider};
-
 use App\Http\Requests\Auth\{
     ProviderRegisterRequest,
     ClientRegisterRequest,
@@ -16,9 +15,24 @@ use App\Notifications\Auth\{
 };
 use ViewberBase\ApiMobileClient;
 use ViewberBase\UserLogin;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+    public function me(Request $request)
+    {
+        return response()->json(['success' => true]);
+    }
+
+    public function logout(LoginRequest $request)
+    {
+        // Invalidate returns false if the token has expired
+        Auth::logout();
+
+        return response()->json(['success' => true]);
+    }
+
 
     public function login(LoginRequest $request)
     {
@@ -42,7 +56,7 @@ class AuthController extends Controller
 //        ]);
 
         if (app('SdCmsEncryptHelper')->verify($input['password'], $user->password)) {
-            $token = 'good';
+            $token = Auth::login($user);
         }
 
         return response()->json(['success' => true, 'token' => $token ?? null]);
