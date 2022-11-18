@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Jenssegers\Agent\Agent;
-use App\Models\{User, Provider};
+use App\Listeners\SendPasswordResetLinkToUserEmail;
+use App\Models\{
+    User,
+    Provider,
+    UserLogin,
+    PasswordReset
+};
 use App\Http\Requests\Auth\{
     ProviderRegisterRequest,
     ClientRegisterRequest,
@@ -14,8 +21,6 @@ use App\Notifications\Auth\{
     ProviderRegistered,
     ClientRegistered
 };
-use ViewberBase\ApiMobileClient;
-use ViewberBase\UserLogin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
@@ -91,8 +96,7 @@ class AuthController extends Controller
 
         return response()->json(['success' => true]);
     }
-
-
+    
     public function registerProvider(ProviderRegisterRequest $request)
     {
         $input = $request->all();
@@ -134,5 +138,67 @@ class AuthController extends Controller
         $user->notify(new ProviderRegistered());
 
         return response()->json(['success' => true]);
+    }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+        $this->validate($request, ['email' => [
+            'required',
+            'email',
+        ]], [
+            'email.exists' => 'If this email matches an account, we will send a reset link to your email.'
+        ]);
+
+        try {
+            SendPasswordResetLinkToUserEmail::dispatch($request->input('email'));
+        } catch(\Throwable $e) {
+            \Log::warning($e->getMessage());
+        }
+
+        return response()->json(['If this email matches an account, we will send a reset link to your email.']);
+    }
+
+    public function reset(Request $request)
+    {
+        // overwrite default password rules
+        $rules = [
+            'password' => ['required', 'confirmed', 'string', 'min:5', 'max:255'],
+            'email' => ['required', 'email']
+        ];
+
+        $this->validate($request, $rules);
+
+        $input = $request->all();
+
+        $passwordReset = PasswordReset::where('token', $input['token'] ?? null)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        if ($passwordReset) {
+            $user = User::where('email', $passwordReset->email);
+        }
+
+        if (empty($passwordReset) || empty($user)) {
+            return response()->json(['errors' => ['invalid' => 'Password Change Token Invalid']]);
+        }
+
+        $tokenExpiresAt = $passwordReset->created_at->setTimezone(config('app.timezone'))->addHour();
+
+        if (empty($user->discard) && ($tokenExpiresAt > Carbon::now())) {
+            // Reset password
+            $user->update(['password' => app('SdCmsEncryptHelper')->encrypt($input['password'])]);
+
+            // delete the token
+            $passwordReset->delete();
+        } else {
+            return response()->json(['errors' => ['timeout' => 'Password Request Timeout']]);
+        }
+
+        // If the password was successfully reset, we will redirect the user back to
+        // the application's home authenticated view. If there is an error we can
+        // redirect them back to where they came from with their error message.
+        return response()->json([
+            'success' => true,
+        ]);
     }
 }
