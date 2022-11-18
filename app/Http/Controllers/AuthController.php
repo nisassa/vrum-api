@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Jenssegers\Agent\Agent;
 use App\Models\{User, Provider};
 use App\Http\Requests\Auth\{
     ProviderRegisterRequest,
@@ -25,10 +26,7 @@ class AuthController extends Controller
     public function me(Request $request)
     {
         return response()->json([
-            'resource' => new UserResource(
-                $request->user(),
-                AdjustableDetailLevelResource::DETAIL_ALL
-            )
+            'resource' => new UserResource($request->user(), AdjustableDetailLevelResource::DETAIL_ALL)
         ]);
     }
 
@@ -50,17 +48,15 @@ class AuthController extends Controller
             return response()->json(['messages' => ['The details you have provided do not match our records.']]);
         }
 
-        /*use Jenssegers\Agent\Agent;*/
-//        $apiMobileClient = ApiMobileClient::where('live_api_key', $request->input('api_key'))->first();
-//
-//        // Captures what device, browser & os user using.
-//        UserLogin::create([
-//            'user_id' => $user->id,
-//            'app_id' => $apiMobileClient ? $apiMobileClient->id : null,
-//            'device' => $agent->device(),
-//            'browser' => $agent->browser(),
-//            'os' => $agent->platform(),
-//        ]);
+        $agent = new Agent;
+
+        // Captures what device, browser & os user using.
+        UserLogin::create([
+            'user_id' => $user->id,
+            'device' => $agent->device(),
+            'browser' => $agent->browser(),
+            'os' => $agent->platform(),
+        ]);
 
         if (app('SdCmsEncryptHelper')->verify($input['password'], $user->password)) {
             $token = Auth::login($user);
