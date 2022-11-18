@@ -84,6 +84,8 @@ class User extends Authenticatable implements JWTSubject
         'long'
     ];
 
+    protected $with = ['provider'];
+
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -103,6 +105,11 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class, 'provider_id', 'id');
     }
 
 }

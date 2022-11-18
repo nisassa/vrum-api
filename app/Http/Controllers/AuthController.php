@@ -17,12 +17,19 @@ use ViewberBase\ApiMobileClient;
 use ViewberBase\UserLogin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\AdjustableDetailLevelResource;
 
 class AuthController extends Controller
 {
     public function me(Request $request)
     {
-        return response()->json(['success' => true]);
+        return response()->json([
+            'resource' => new UserResource(
+                $request->user(),
+                AdjustableDetailLevelResource::DETAIL_ALL
+            )
+        ]);
     }
 
     public function logout(LoginRequest $request)
@@ -30,7 +37,7 @@ class AuthController extends Controller
         // Invalidate returns false if the token has expired
         Auth::logout();
 
-        return response()->json(['success' => true]);
+        return response()->json(['resource' => true]);
     }
 
 
