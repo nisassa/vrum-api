@@ -96,7 +96,7 @@ class AuthController extends Controller
 
         return response()->json(['success' => true]);
     }
-    
+
     public function registerProvider(ProviderRegisterRequest $request)
     {
         $input = $request->all();
@@ -107,7 +107,7 @@ class AuthController extends Controller
             'booking_by_specialist' => $input['booking_by_specialist'],
             'booking_approved_by_provider' => ! (bool) $input['booking_by_specialist'],
             'line_1' => $input['line_1'],
-            'line_2' => $input['line_2'],
+            'line_2' => $input['line_2'] ?? null,
             'city' => $input['city'],
             'county' => $input['county'] ?? null,
             'country' => $input['country'],
