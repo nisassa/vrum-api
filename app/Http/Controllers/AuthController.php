@@ -124,7 +124,7 @@ class AuthController extends Controller
             'email' => $input['email'],
             'phone' => $input['phone'],
             'line_1' => $input['line_1'],
-            'line_2' => $input['line_2'],
+            'line_2' => $input['line_2'] ?? null,
             'city' => $input['city'],
             'county' => $input['county'] ?? null,
             'country' => $input['country'],
