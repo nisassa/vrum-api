@@ -38,7 +38,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         // Invalidate returns false if the token has expired
-        \Log::info(Auth::user());
         Auth::logout();
 
         return response()->json(['resource' => true]);
