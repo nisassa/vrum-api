@@ -38,6 +38,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         // Invalidate returns false if the token has expired
+        \Log::info(Auth::user());
         Auth::logout();
 
         return response()->json(['resource' => true]);
@@ -146,7 +147,6 @@ class AuthController extends Controller
 
     public function sendResetLinkEmail(Request $request)
     {
-        \Log::info("password reset ");
         $this->validate($request, ['email' => [
             'required',
             'email',
