@@ -35,14 +35,13 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(LoginRequest $request)
+    public function logout(Request $request)
     {
         // Invalidate returns false if the token has expired
         Auth::logout();
 
         return response()->json(['resource' => true]);
     }
-
 
     public function login(LoginRequest $request)
     {
@@ -65,9 +64,14 @@ class AuthController extends Controller
 
         if (app('SdCmsEncryptHelper')->verify($input['password'], $user->password)) {
             $token = Auth::login($user);
+            $resource = new UserResource($request->user(), AdjustableDetailLevelResource::DETAIL_ALL);
         }
 
-        return response()->json(['success' => true, 'token' => $token ?? null]);
+        return response()->json([
+            'success' => true,
+            'token' => $token ?? null,
+            'resource' => $resource ?? null
+        ]);
     }
 
     public function registerClient(ClientRegisterRequest $request)
@@ -142,6 +146,7 @@ class AuthController extends Controller
 
     public function sendResetLinkEmail(Request $request)
     {
+        \Log::info("password reset ");
         $this->validate($request, ['email' => [
             'required',
             'email',
