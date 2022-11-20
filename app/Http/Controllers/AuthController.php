@@ -91,9 +91,7 @@ class AuthController extends Controller
             'postcode' => $input['postcode'] ?? null,
             'manager' => 0,
             'type' => User::CLIENT_TYPE,
-            'password' => Hash::make($input['password'], [
-                'rounds' => 12,
-            ])
+            'password' => $input['password'] = app('SdCmsEncryptHelper')->encrypt($input['password'])
         ]);
 
         $user->notify(new ClientRegistered());
