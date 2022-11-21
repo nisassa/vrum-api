@@ -30,7 +30,7 @@ class LoginRequest extends Request
                 'email',
                 'max:255',
             ],
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:5',
         ];
     }
 }
