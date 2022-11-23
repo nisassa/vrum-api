@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Discards;
+use ViewberBase\ViewingItem;
 
 class Provider extends Model
 {
@@ -82,4 +82,9 @@ class Provider extends Model
         'lat',
         'long',
     ];
+
+    public function gallery()
+    {
+        return $this->hasMany(PhotoGallery::class, 'provider_id', 'id');
+    }
 }

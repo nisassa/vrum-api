@@ -16,7 +16,6 @@ use App\Http\Requests\Auth\{
     ClientRegisterRequest,
     LoginRequest
 };
-use Illuminate\Support\Facades\Hash;
 use App\Notifications\Auth\{
     ProviderRegistered,
     ClientRegistered

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Discards;
 
 class PasswordReset extends Model
 {
+    use Discards;
+
     protected $table = 'password_resets';
     protected $primaryKey = 'id';
 
