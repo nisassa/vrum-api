@@ -83,8 +83,13 @@ class Provider extends Model
         'long',
     ];
 
-    public function gallery()
+    public function gallery_images()
     {
         return $this->hasMany(PhotoGallery::class, 'provider_id', 'id');
+    }
+
+    public function services()
+    {
+        return $this->hasMany(ServiceTypr::class, 'provider_id', 'id');
     }
 }
