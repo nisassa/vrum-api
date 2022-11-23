@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Provider\Services as ProviderServices;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,17 @@ Route::name('api.')->group(static function () {
     Route::post('/auth/password/reset', [AuthController::class, 'reset']);
 
     Route::middleware(['jwt.auth'])->group(function () {
-        Route::get('/user/me', [AuthController::class, 'me']);
+
+        Route::prefix('user')->name('users.')->group(function () {
+            Route::get('me', [AuthController::class, 'me']);
+//            Route::post('me', [AuthController::class, 'updateUser']);
+        });
+
+        // Route::post('uploadFile', [AuthController::class, 'uploadFile']);
+        Route::prefix('provider')->name('provider.')->group(function () {
+            Route::get('services', [ProviderServices::class, 'getProviderServices']);
+//            Route::post('services', [ProviderServices::class, 'getProviderServices']);
+        });
     });
 });
 

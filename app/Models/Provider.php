@@ -90,6 +90,6 @@ class Provider extends Model
 
     public function services()
     {
-        return $this->hasMany(ServiceTypr::class, 'provider_id', 'id');
+        return $this->hasMany(ServiceType::class, 'provider_id', 'id');
     }
 }

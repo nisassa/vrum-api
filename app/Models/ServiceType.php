@@ -38,6 +38,6 @@ class ServiceType extends Model
 
     public function provider()
     {
-        return $this->BelongsTo(Provider::class, 'id', 'provider_id');
+        return $this->BelongsTo(Provider::class, 'provider_id', 'id');
     }
 }

@@ -32,8 +32,10 @@ class PhotoGallery extends Model
         'updated_at'
     ];
 
+    protected $with = ['provider'];
+
     public function provider()
     {
-        return $this->BelongsTo(Provider::class, 'id', 'provider_id');
+        return $this->BelongsTo(Provider::class, 'provider_id', 'id');
     }
 }
