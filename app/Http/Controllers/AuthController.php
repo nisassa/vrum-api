@@ -16,6 +16,9 @@ use App\Http\Requests\Auth\{
     ClientRegisterRequest,
     LoginRequest
 };
+
+use App\Http\Requests\User\UpdateUserRequest;
+
 use App\Notifications\Auth\{
     ProviderRegistered,
     ClientRegistered
@@ -31,6 +34,30 @@ class AuthController extends Controller
     {
         return response()->json([
             'resource' => new UserResource($request->user(), AdjustableDetailLevelResource::DETAIL_ALL)
+        ]);
+    }
+
+    public function destroyUser(Request $request)
+    {
+        $user = $request->user();
+        $user->fill(['discard' => true])->save();
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function updateUser(UpdateUserRequest $request)
+    {
+        $user = $request->user();
+        $input = $request->all();
+        if (isset($input['password']) && !empty($input['password'])) {
+            $input['password'] = app('SdCmsEncryptHelper')->encrypt($input['password']);
+        }
+
+        $user->fill($input)->save();
+
+        return response()->json([
+            'success' => true
         ]);
     }
 

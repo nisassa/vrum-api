@@ -26,16 +26,19 @@ Route::name('api.')->group(static function () {
     Route::post('/auth/password/reset', [AuthController::class, 'reset']);
 
     Route::middleware(['jwt.auth'])->group(function () {
-
         Route::prefix('user')->name('users.')->group(function () {
             Route::get('me', [AuthController::class, 'me']);
-//            Route::post('me', [AuthController::class, 'updateUser']);
+            Route::post('me', [AuthController::class, 'updateUser']);
+            Route::delete('me', [AuthController::class, 'destroyUser']);
         });
 
         // Route::post('uploadFile', [AuthController::class, 'uploadFile']);
+
         Route::prefix('provider')->name('provider.')->group(function () {
             Route::get('services', [ProviderServices::class, 'getProviderServices']);
-//            Route::post('services', [ProviderServices::class, 'getProviderServices']);
+            Route::post('services/toggleDisplay/{serviceType}', [ProviderServices::class, 'toggleDisplay']);
+            // allow destroy for custom services
+            Route::delete('services/{serviceType}', [ProviderServices::class, 'destroyService']);
         });
     });
 });
