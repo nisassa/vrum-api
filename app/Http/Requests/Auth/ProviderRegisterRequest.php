@@ -26,9 +26,9 @@ class ProviderRegisterRequest extends Request
     public function rules()
     {
         $rules = [
-            'provider_name' => 'required|max:255',
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
+            'provider_name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => [
                 'required',
                 'email',

@@ -26,8 +26,8 @@ class ClientRegisterRequest extends Request
     public function rules()
     {
         $rules = [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => [
                 'required',
                 'email',

@@ -36,6 +36,8 @@ Route::name('api.')->group(static function () {
 
         Route::prefix('provider')->name('provider.')->group(function () {
             Route::get('services', [ProviderServices::class, 'getProviderServices']);
+            Route::post('services', [ProviderServices::class, 'createService']);
+            Route::post('services/update/{serviceType}', [ProviderServices::class, 'updateService']);
             Route::post('services/toggleDisplay/{serviceType}', [ProviderServices::class, 'toggleDisplay']);
             // allow destroy for custom services
             Route::delete('services/{serviceType}', [ProviderServices::class, 'destroyService']);

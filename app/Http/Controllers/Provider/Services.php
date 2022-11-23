@@ -9,6 +9,7 @@ use App\Models\{
     ServiceType,
 };
 use App\Http\Requests\Provider\IndexRequest as ProviderIndexRequest;
+use App\Http\Requests\Provider\Service\CreateRequest as CreateProviderServiceRequest;
 
 class Services extends Controller
 {
@@ -20,6 +21,28 @@ class Services extends Controller
 
         return response()->json([
             'resource' => ServiceTypeResource::collection($services, AdjustableDetailLevelResource::DETAIL_ALL)
+        ]);
+    }
+
+    public function createService(CreateProviderServiceRequest $request) {
+
+        ServiceType::create(array_merge($request->all(), [
+            'provider_id' => $request->user()->provider_id,
+        ]));
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function updateService(CreateProviderServiceRequest $request, ServiceType $serviceType) {
+
+        $serviceType->fill(array_merge($request->all(), [
+            'provider_id' => $request->user()->provider_id,
+        ]))->save();
+
+        return response()->json([
+            'success' => true
         ]);
     }
 
