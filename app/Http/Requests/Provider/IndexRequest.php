@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Provider;
 
+use App\Models\Provider;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -17,6 +18,12 @@ class IndexRequest extends FormRequest
         $user = $this->user();
         if ($user->type !== User::SERVICE_PROVIDER_TYPE) {
             // User must be a provider
+            return false;
+        }
+
+        if (! Provider::where('id',$user->provider_id )->exists()) {
+            //  Provider must be valid
+            dd("no exusts");
             return false;
         }
 

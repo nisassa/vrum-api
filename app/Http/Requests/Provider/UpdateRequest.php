@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Http\Requests\Provider;
+
+class UpdateRequest extends IndexRequest
+{
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'invoice_email' => 'required|email|string|max:255',
+            'name' => 'required|string|max:50',
+            'postcode' => 'required|string|max:50',
+            'line_1' => 'required|string|max:255',
+            'line_2' => 'nullable|string|max:255',
+            'city' => 'required|string|max:255',
+            'county' => 'nullable|string|max:255',
+            'country' => 'required|string|max:2',
+            'booking_by_specialist' => 'required:string|boolean'
+        ];
+    }
+}

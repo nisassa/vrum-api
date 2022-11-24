@@ -26,7 +26,7 @@ class Services extends Controller
 
     public function createService(CreateProviderServiceRequest $request) {
 
-        ServiceType::create(array_merge($request->all(), [
+        ServiceType::create(array_merge($request->validated(), [
             'provider_id' => $request->user()->provider_id,
         ]));
 
@@ -37,7 +37,7 @@ class Services extends Controller
 
     public function updateService(CreateProviderServiceRequest $request, ServiceType $serviceType) {
 
-        $serviceType->fill(array_merge($request->all(), [
+        $serviceType->fill(array_merge($request->validated(), [
             'provider_id' => $request->user()->provider_id,
         ]))->save();
 

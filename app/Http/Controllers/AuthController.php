@@ -18,7 +18,7 @@ use App\Http\Requests\Auth\{
 };
 
 use App\Http\Requests\User\UpdateUserRequest;
-
+use App\Http\Requests\Provider\UpdateRequest as UpdateProviderRequest;
 use App\Notifications\Auth\{
     ProviderRegistered,
     ClientRegistered
@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\AdjustableDetailLevelResource;
+
 
 class AuthController extends Controller
 {
@@ -46,10 +47,21 @@ class AuthController extends Controller
         ]);
     }
 
+    public function updateProvider(UpdateProviderRequest $request)
+    {
+        $user = $request->user();
+        $input = $request->validated();
+
+        Provider::where('id', $user->provider_id)->update($input);
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
     public function updateUser(UpdateUserRequest $request)
     {
         $user = $request->user();
-        $input = $request->all();
+        $input = $request->validated();
         if (isset($input['password']) && !empty($input['password'])) {
             $input['password'] = app('SdCmsEncryptHelper')->encrypt($input['password']);
         }
@@ -71,7 +83,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
         $user = User::where('email', $input['email'])->first();
         if (! $user) {
@@ -102,7 +114,7 @@ class AuthController extends Controller
 
     public function registerClient(ClientRegisterRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
         $user = User::create([
             'first_name' => $input['first_name'],
@@ -127,7 +139,7 @@ class AuthController extends Controller
 
     public function registerProvider(ProviderRegisterRequest $request)
     {
-        $input = $request->all();
+        $input = $request->validated();
 
         $provider = Provider::create([
             'name' => $input['provider_name'],
