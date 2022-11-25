@@ -69,7 +69,8 @@ class AuthController extends Controller
         $user->fill($input)->save();
 
         return response()->json([
-            'success' => true
+            'success' => true,
+            'resource' => new UserResource($user, AdjustableDetailLevelResource::DETAIL_ALL)
         ]);
     }
 
