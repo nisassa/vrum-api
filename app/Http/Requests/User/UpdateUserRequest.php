@@ -36,7 +36,6 @@ class UpdateUserRequest extends FormRequest
             'password' => 'required|confirmed|string|min:5|max:255',
             'job_title' => 'nullable|string|max:255',
             'landline' => 'nullable|string|max:255',
-            'discard' => 'nullable|number|max:255',
             'photo' => 'nullable|string|max:525',
         ];
     }
