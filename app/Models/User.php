@@ -13,6 +13,7 @@ class User extends Authenticatable implements JWTSubject
     use HasFactory, Notifiable, Discards;
 
     public const SERVICE_PROVIDER_TYPE = 'service_provider';
+    public const SERVICE_PROVIDER_STAFF_TYPE = 'service_provider_staff';
     public const CLIENT_TYPE = 'client';
 
     /**

@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Provider\Services as ProviderServices;
+use App\Http\Controllers\Provider\StaffMembers as ProviderStaffMembers;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +33,7 @@ Route::name('api.')->group(static function () {
             Route::delete('me', [AuthController::class, 'destroyUser']);
         });
 
-        // Route::post('uploadFile', [AuthController::class, 'uploadFile']);
+        Route::post('upload', [FileUploadController::class, 'upload']);
 
         Route::prefix('provider')->name('provider.')->group(function () {
 
@@ -41,6 +41,8 @@ Route::name('api.')->group(static function () {
 
             Route::get('services', [ProviderServices::class, 'getProviderServices']);
             Route::post('services', [ProviderServices::class, 'createService']);
+
+            Route::post('staff', [ProviderStaffMembers::class, 'storeMember']);
 
             Route::post('services/update/{serviceType}', [ProviderServices::class, 'updateService']);
             Route::post('services/toggleDisplay/{serviceType}', [ProviderServices::class, 'toggleDisplay']);
