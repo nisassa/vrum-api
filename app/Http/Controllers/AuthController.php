@@ -146,7 +146,6 @@ class AuthController extends Controller
             'name' => $input['provider_name'],
             'invoice_email' => $input['email'],
             'booking_by_specialist' => $input['booking_by_specialist'],
-            'booking_approved_by_provider' => ! (bool) $input['booking_by_specialist'],
             'line_1' => $input['line_1'],
             'line_2' => $input['line_2'] ?? null,
             'city' => $input['city'],

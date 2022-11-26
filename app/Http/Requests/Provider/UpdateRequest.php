@@ -18,10 +18,12 @@ class UpdateRequest extends IndexRequest
             'postcode' => 'required|string|max:50',
             'line_1' => 'required|string|max:255',
             'line_2' => 'nullable|string|max:255',
+            'landline' => 'nullable|string|max:100',
             'city' => 'required|string|max:255',
             'county' => 'nullable|string|max:255',
             'country' => 'required|string|max:2',
-            'booking_by_specialist' => 'required:string|boolean'
+            'booking_by_specialist' => 'required:string|boolean',
+            'booking_auto_allocation' => 'required:string|boolean'
         ];
     }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Provider;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\Provider\IndexRequest as ProviderIndexRequest;
+use App\Http\Requests\Provider\Service\CreateRequest as CreateProviderServiceRequest;
 use App\Http\Requests\Provider\StaffMember\StoreRequest as StoreStaffMemberRequest;
+use App\Http\Controllers\Controller;
+use App\Models\ServiceType;
 use App\Models\User;
 
 class StaffMembers extends Controller
@@ -17,6 +20,16 @@ class StaffMembers extends Controller
             'password' => $input['password'] = app('SdCmsEncryptHelper')->encrypt($input['password']),
             'type' => User::SERVICE_PROVIDER_STAFF_TYPE
         ]));
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function toggleServiceType(ProviderIndexRequest $request, User $user, ServiceType $service)  {
+
+        dump($service->id);
+        dd($user->id);
 
         return response()->json([
             'success' => true

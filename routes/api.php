@@ -42,8 +42,12 @@ Route::name('api.')->group(static function () {
 
             Route::get('services', [ProviderServices::class, 'getProviderServices']);
             Route::post('services', [ProviderServices::class, 'createService']);
+            Route::post('toggleServiceType/{user}/{service}', [ProviderServices::class, 'createService']);
 
             Route::post('staff', [ProviderStaffMembers::class, 'storeMember']);
+
+            Route::post('staff/toggle/service/{user}/{service}', [ProviderStaffMembers::class, 'toggleServiceType']);
+
 
             Route::post('services/update/{serviceType}', [ProviderServices::class, 'updateService']);
             Route::post('services/toggleDisplay/{serviceType}', [ProviderServices::class, 'toggleDisplay']);

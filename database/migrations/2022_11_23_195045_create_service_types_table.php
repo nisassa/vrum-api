@@ -22,6 +22,9 @@ class CreateServiceTypesTable extends Migration
             $table->string('position')->default('0');
             $table->timestamps();
             $table->unsignedInteger('provider_id')->nullable()->default(0);
+            $table->unsignedTinyInteger('auto_allocation')->default(1);
+            $table->float('cost')->default(0.0);
+            $table->float('vat')->default(0.0);
 
             $table->index('provider_id', 'provider_id');
         });

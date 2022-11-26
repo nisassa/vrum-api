@@ -27,6 +27,9 @@ class ServiceTypeResource extends AdjustableDetailLevelResource
                 'provider' => new ProviderResource($this->whenLoaded('provider'), $this->detailLevel),
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
+                'auto_allocation' => $this->auto_allocation,
+                'cost' => $this->cost,
+                'vat' => $this->vat
             ];
         }
     }

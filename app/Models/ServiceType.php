@@ -22,7 +22,10 @@ class ServiceType extends Model
         'position',
         'provider_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'auto_allocation',
+        'cost',
+        'vat'
     ];
 
     protected $visible = [
@@ -33,7 +36,10 @@ class ServiceType extends Model
         'position',
         'provider_id',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'auto_allocation',
+        'cost',
+        'vat'
     ];
 
     public function provider()
