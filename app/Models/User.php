@@ -114,7 +114,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function service_types()
     {
-        return $this->hasMany(ServiceType::class)
-            ->using(UserServiceTypes::class);
+        return $this
+            ->belongsToMany(ServiceType::class, 'user_service_types', 'service_type_id', 'user_id')
+            ->withPivot([
+                'service_type_id',
+                'user_id'
+            ]);
     }
 }

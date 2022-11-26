@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Provider;
 
 use App\Http\Requests\Provider\IndexRequest as ProviderIndexRequest;
-use App\Http\Requests\Provider\Service\CreateRequest as CreateProviderServiceRequest;
 use App\Http\Requests\Provider\StaffMember\StoreRequest as StoreStaffMemberRequest;
 use App\Http\Controllers\Controller;
 use App\Models\ServiceType;
@@ -28,8 +27,11 @@ class StaffMembers extends Controller
 
     public function toggleServiceType(ProviderIndexRequest $request, User $user, ServiceType $service)  {
 
-        dump($service->id);
-        dd($user->id);
+        if ($user->service_types()->where('service_type_id', $service->id)->exists()) {
+            $user->service_types()->detach($service->id);
+        } else {
+            $user->service_types()->attach($service->id);
+        }
 
         return response()->json([
             'success' => true

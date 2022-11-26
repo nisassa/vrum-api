@@ -27,4 +27,5 @@ class UserServiceTypes extends Model
         'user_id',
         'service_type_id',
     ];
+
 }
