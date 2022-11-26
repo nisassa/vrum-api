@@ -53,8 +53,13 @@ class AuthController extends Controller
         $input = $request->validated();
 
         Provider::where('id', $user->provider_id)->update($input);
+
         return response()->json([
-            'success' => true
+            'success' => true,
+            'resource' => new UserResource(
+                User::where('id', $user->id)->first(),
+                AdjustableDetailLevelResource::DETAIL_ALL
+            )
         ]);
     }
 
