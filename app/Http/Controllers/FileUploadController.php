@@ -15,7 +15,7 @@ class FileUploadController extends Controller
         switch ($request->entity) {
             case in_array($request->entity, ['photo_gallery', 'user']):
                 $validator = Validator::make($request->all(), [
-                    'photo' => 'required|mimes:'.$allowedImagesMimes.'|max:500'
+                    'photo' => 'required|mimes:'.$allowedImagesMimes.'|max:1000'
                 ]);
                 if ($validator->fails()) {
                     return response()->json([
@@ -29,7 +29,7 @@ class FileUploadController extends Controller
                     $folderName = 'photo_gallery';
                 }
 
-                $file = $request->document;
+                $file = $request->photo;
                 $filePath = $this->handleFileUpload($file, $folderName);
                 $response = [
                     'success' => true,
@@ -41,7 +41,7 @@ class FileUploadController extends Controller
                 break;
         }
 
-        return response()->json($response);
+        return response()->json($response?? []);
     }
 
     /**
@@ -55,6 +55,6 @@ class FileUploadController extends Controller
         $fileName .= Str::random(7).'.';
         $fileName .= $file->getClientOriginalExtension();
 
-        return Storage::disk('local')->putFileAs("userfiles/{$folderName}", $file, $fileName, 'public');
+        return Storage::disk('public')->putFileAs("userfiles/{$folderName}", $file, $fileName, 'public');
     }
 }

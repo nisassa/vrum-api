@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Provider\Services as ProviderServices;
 use App\Http\Controllers\Provider\StaffMembers as ProviderStaffMembers;
+use App\Http\Controllers\FileUploadController;
 
 /*
 |--------------------------------------------------------------------------

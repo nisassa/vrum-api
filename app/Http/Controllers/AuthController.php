@@ -70,7 +70,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'resource' => new UserResource($user, AdjustableDetailLevelResource::DETAIL_ALL)
+            'resource' => new UserResource($user,AdjustableDetailLevelResource::DETAIL_ALL)
         ]);
     }
 
