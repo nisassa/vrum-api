@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Provider\Services as ProviderServices;
 use App\Http\Controllers\Provider\StaffMembers as ProviderStaffMembers;
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\Provider\PhotosGallery as ProviderPhotosGallery;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,21 +38,20 @@ Route::name('api.')->group(static function () {
         Route::post('upload', [FileUploadController::class, 'upload']);
 
         Route::prefix('provider')->name('provider.')->group(function () {
-
             Route::post('/', [AuthController::class, 'updateProvider']);
+
+            Route::get('/photo-gallery', [ProviderPhotosGallery::class, 'getPhotos']);
 
             Route::get('services', [ProviderServices::class, 'getProviderServices']);
             Route::post('services', [ProviderServices::class, 'createService']);
             Route::post('toggleServiceType/{user}/{service}', [ProviderServices::class, 'createService']);
 
             Route::post('staff', [ProviderStaffMembers::class, 'storeMember']);
-
             Route::post('staff/toggle/service/{user}/{service}', [ProviderStaffMembers::class, 'toggleServiceType']);
 
 
             Route::post('services/update/{serviceType}', [ProviderServices::class, 'updateService']);
             Route::post('services/toggleDisplay/{serviceType}', [ProviderServices::class, 'toggleDisplay']);
-            // allow destroy for custom services
             Route::delete('services/{serviceType}', [ProviderServices::class, 'destroyService']);
         });
     });

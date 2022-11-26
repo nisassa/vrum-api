@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
 class FileUploadController extends Controller
 {
@@ -26,11 +27,17 @@ class FileUploadController extends Controller
 
                 $folderName = 'user';
                 if ($request->entity === 'photo_gallery') {
+                    $totalImages = $request->user()->provider->gallery_images()->count();
+                    $totalImages++;
+                    if ($totalImages > config('app.max_gallery_images')) {
+                        abort(403 );
+                    }
                     $folderName = 'photo_gallery';
                 }
 
                 $file = $request->photo;
-                $filePath = $this->handleFileUpload($file, $folderName);
+                $filePath = $this->handleFileUpload($file, $folderName, $request->entity, $request->user());
+
                 $response = [
                     'success' => true,
                     'document' => [
@@ -49,12 +56,22 @@ class FileUploadController extends Controller
      * @param string $folderName
      * @return false|string
      */
-    public function handleFileUpload($file, string $folderName)
+    private function handleFileUpload($file, string $folderName, string $entity, User $user)
     {
         $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME).'.';
         $fileName .= Str::random(7).'.';
         $fileName .= $file->getClientOriginalExtension();
 
-        return Storage::disk('public')->putFileAs("userfiles/{$folderName}", $file, $fileName, 'public');
+        $path = "userfiles/{$folderName}";
+
+        if ($entity === 'photo_gallery') {
+            // create the entity
+            $user->provider->gallery_images()->create([
+                'name' => $fileName,
+                'photo' => $path
+            ]);
+        }
+
+        return Storage::disk('public')->putFileAs($path, $file, $fileName, 'public');
     }
 }

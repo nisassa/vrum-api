@@ -30,6 +30,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'max_gallery_images' => env('MAX_PHOTO_GALLERY_IMAGES', 6),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
