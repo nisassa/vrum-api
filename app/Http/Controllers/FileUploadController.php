@@ -68,7 +68,7 @@ class FileUploadController extends Controller
             // create the entity
             $user->provider->gallery_images()->create([
                 'name' => $fileName,
-                'photo' => $path
+                'photo' => $path.'/'.$fileName
             ]);
         }
 

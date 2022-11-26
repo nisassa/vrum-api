@@ -41,6 +41,7 @@ Route::name('api.')->group(static function () {
             Route::post('/', [AuthController::class, 'updateProvider']);
 
             Route::get('/photo-gallery', [ProviderPhotosGallery::class, 'getPhotos']);
+            Route::delete('/photo-gallery/{photo}', [ProviderPhotosGallery::class, 'remove']);
 
             Route::get('services', [ProviderServices::class, 'getProviderServices']);
             Route::post('services', [ProviderServices::class, 'createService']);
