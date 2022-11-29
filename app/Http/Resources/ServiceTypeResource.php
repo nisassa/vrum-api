@@ -29,6 +29,7 @@ class ServiceTypeResource extends AdjustableDetailLevelResource
                 'updated_at' => $this->updated_at,
                 'auto_allocation' => $this->auto_allocation,
                 'cost' => $this->cost,
+                'duration_in_minutes' => $this->vat,
                 'vat' => $this->vat
             ];
         }

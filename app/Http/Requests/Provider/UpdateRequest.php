@@ -23,6 +23,7 @@ class UpdateRequest extends IndexRequest
             'county' => 'nullable|string|max:255',
             'country' => 'required|string|max:2',
             'booking_by_specialist' => 'required:string|boolean',
+            'show_service_prices_to_client' => 'required:number',
             'booking_auto_allocation' => 'required:string|boolean'
         ];
     }

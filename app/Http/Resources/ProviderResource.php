@@ -29,6 +29,7 @@ class ProviderResource extends AdjustableDetailLevelResource
                 'vip' => $this->vip,
                 'booking_by_specialist' => $this->booking_by_specialist,
                 'booking_auto_allocation' => $this->booking_auto_allocation,
+                'show_service_prices_to_client' => $this->show_service_prices_to_client,
                 'landline' => $this->landline,
                 'discard' => $this->discard,
                 'line_1' => $this->line_1,

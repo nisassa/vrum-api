@@ -25,6 +25,7 @@ class ServiceType extends Model
         'updated_at',
         'auto_allocation',
         'cost',
+        'duration_in_minutes',
         'vat'
     ];
 
@@ -39,6 +40,7 @@ class ServiceType extends Model
         'updated_at',
         'auto_allocation',
         'cost',
+        'duration_in_minutes',
         'vat'
     ];
 
