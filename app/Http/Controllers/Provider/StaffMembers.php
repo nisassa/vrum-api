@@ -4,12 +4,39 @@ namespace App\Http\Controllers\Provider;
 
 use App\Http\Requests\Provider\IndexRequest as ProviderIndexRequest;
 use App\Http\Requests\Provider\StaffMember\StoreRequest as StoreStaffMemberRequest;
+use App\Http\Requests\Provider\StaffMember\UpdateRequest as UpdateRequestStaffMemberRequest;
 use App\Http\Controllers\Controller;
 use App\Models\ServiceType;
 use App\Models\User;
 
 class StaffMembers extends Controller
 {
+    public function updateMember(UpdateRequestStaffMemberRequest $request, User $user) {
+
+        if ($user->provider_id !== $request->user()->provider_id)  {
+            abort(403);
+        }
+
+        $input = $request->validated();
+        $user->fill(array_merge($input, [
+            'password' => $input['password'] = app('SdCmsEncryptHelper')->encrypt($input['password']),
+        ]));
+
+        $user->save();
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+    public function paginateStaff(ProviderIndexRequest $request) {
+        $users = User::where('provider_id', $request->user()->provider_id)->paginate();
+
+        return response()->json([
+            'success' => true,
+            'users' => $users
+        ]);
+    }
     public function storeMember(StoreStaffMemberRequest $request) {
 
         $input = $request->validated();
