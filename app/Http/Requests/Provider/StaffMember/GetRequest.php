@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Provider;
+namespace App\Http\Requests\Provider\StaffMember;
 
+use App\Http\Requests\Provider\IndexRequest;
 use App\Models\Provider;
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class IndexRequest extends FormRequest
+class GetRequest extends IndexRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,7 +17,7 @@ class IndexRequest extends FormRequest
     public function authorize()
     {
         $user = $this->user();
-        if ($user->type !== User::SERVICE_PROVIDER_TYPE) {
+        if (! in_array($user->type, [User::SERVICE_PROVIDER_TYPE, User::SERVICE_PROVIDER_STAFF_TYPE])) {
             // User must be a provider
             return false;
         }
@@ -27,17 +28,5 @@ class IndexRequest extends FormRequest
         }
 
         return true;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            //
-        ];
     }
 }

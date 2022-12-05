@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Discards;
 use ViewberBase\ViewingItem;
+use App\Interfaces\HasWorkingDays;
 
-class Provider extends Model
+class Provider extends Model implements HasWorkingDays
 {
     use HasFactory, Discards;
 
@@ -94,5 +95,10 @@ class Provider extends Model
     public function services()
     {
         return $this->hasMany(ServiceType::class, 'provider_id', 'id');
+    }
+
+    public function working_days()
+    {
+        return $this->hasMany(WorkingDays::class, 'provider_id', 'id');
     }
 }

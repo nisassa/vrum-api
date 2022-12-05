@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\AdjustableDetailLevelResource;
-
+use App\Listeners\CreateWorkingHours;
 
 class AuthController extends Controller
 {
@@ -108,7 +108,10 @@ class AuthController extends Controller
 
         if (app('SdCmsEncryptHelper')->verify($input['password'], $user->password)) {
             $token = Auth::login($user);
-            $resource = new UserResource($request->user(), AdjustableDetailLevelResource::DETAIL_ALL);
+
+            $user = $request->user()->load('provider.working_days');
+
+            $resource = new UserResource($user,AdjustableDetailLevelResource::DETAIL_ALL);
         }
 
         return response()->json([
@@ -181,6 +184,8 @@ class AuthController extends Controller
         ]);
 
         $user->notify(new ProviderRegistered());
+
+        CreateWorkingHours::dispatch($provider);
 
         return response()->json(['success' => true]);
     }
