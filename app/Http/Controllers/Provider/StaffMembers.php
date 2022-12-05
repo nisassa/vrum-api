@@ -46,7 +46,6 @@ class StaffMembers extends Controller
 
     public function paginateStaff(ProviderIndexRequest $request) {
         $users = User::where('provider_id', $request->user()->provider_id)->paginate();
-
         return response()->json([
             'success' => true,
             'users' => $users
