@@ -15,6 +15,15 @@ use App\Models\User;
 
 class StaffMembers extends Controller
 {
+    public function delete(ProviderIndexRequest $request, User $user)
+    {
+        $user->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
     public function updateMember(UpdateRequestStaffMemberRequest $request, User $user) {
 
         if ($user->provider_id !== $request->user()->provider_id)  {
