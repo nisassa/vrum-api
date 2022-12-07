@@ -31,9 +31,7 @@ class StaffMembers extends Controller
         }
 
         $input = $request->validated();
-        $user->fill(array_merge($input, [
-            'password' => $input['password'] = app('SdCmsEncryptHelper')->encrypt($input['password']),
-        ]));
+        $user->fill(array_merge($input));
 
         $user->save();
 
