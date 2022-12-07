@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\AdjustableDetailLevelResource;
-use App\Listeners\CreateWorkingHours;
+use App\Listeners\{CreateWorkingHours, UpdateWorkingHours};
 
 class AuthController extends Controller
 {
@@ -51,13 +51,18 @@ class AuthController extends Controller
     {
         $user = $request->user();
         $input = $request->validated();
+        $businessDays = $request->input('business_days');
+        unset($input['business_days']);
 
-        Provider::where('id', $user->provider_id)->update($input);
+        $provider = Provider::where('id', $user->provider_id)->first();
+        $provider->fill($input)->save();
+
+        UpdateWorkingHours::dispatch($provider, $businessDays);
 
         return response()->json([
             'success' => true,
             'resource' => new UserResource(
-                User::where('id', $user->id)->first(),
+                User::where('id', $user->id)->with('provider.working_days')->first(),
                 AdjustableDetailLevelResource::DETAIL_ALL
             )
         ]);
@@ -65,17 +70,25 @@ class AuthController extends Controller
 
     public function updateUser(UpdateUserRequest $request)
     {
-        $user = $request->user();
         $input = $request->validated();
+        $businessDays = $request->input('business_days');
+        unset($input['business_days']);
+
+        $user = $request->user();
+
         if (isset($input['password']) && !empty($input['password'])) {
             $input['password'] = app('SdCmsEncryptHelper')->encrypt($input['password']);
         }
 
         $user->fill($input)->save();
 
+        if (! empty($businessDays)) {
+            UpdateWorkingHours::dispatch($user, $businessDays);
+        }
+
         return response()->json([
             'success' => true,
-            'resource' => new UserResource($user,AdjustableDetailLevelResource::DETAIL_ALL)
+            'resource' => new UserResource($user->refresh(),AdjustableDetailLevelResource::DETAIL_ALL)
         ]);
     }
 

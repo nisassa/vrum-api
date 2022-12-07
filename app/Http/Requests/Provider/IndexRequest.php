@@ -16,7 +16,7 @@ class IndexRequest extends FormRequest
     public function authorize()
     {
         $user = $this->user();
-        if ($user->type !== User::SERVICE_PROVIDER_TYPE) {
+        if (! in_array($user->type, [User::SERVICE_PROVIDER_TYPE, User::SERVICE_PROVIDER_STAFF_TYPE])) {
             // User must be a provider
             return false;
         }

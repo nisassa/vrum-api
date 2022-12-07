@@ -86,7 +86,7 @@ class User extends Authenticatable implements JWTSubject, HasWorkingDays
         'long'
     ];
 
-    protected $with = ['provider', 'working_days'];
+    protected $with = ['provider', 'working_days', 'provider.working_days'];
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Provider\StaffMember;
 
 use App\Http\Requests\Provider\IndexRequest;
 use Illuminate\Validation\Rule;
+use App\Models\User;
 
 class UpdateRequest extends IndexRequest
 {
@@ -14,6 +15,12 @@ class UpdateRequest extends IndexRequest
      */
     public function rules()
     {
+
+        $user = User::where('email', $this->input('email'))->first();
+        if (! $user) {
+            abort(403);
+        }
+
         return [
             'email' => 'required|email',
             'first_name' => 'required|string|max:255',
@@ -29,6 +36,10 @@ class UpdateRequest extends IndexRequest
             'landline' => 'nullable|string|max:255',
             'discard' => 'nullable|number|max:255',
             'photo' => 'nullable|string|max:525',
+            'business_days' => 'required|array',
+            'business_days.*.id' => Rule::exists('working_days', 'id')->where(function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            }),
         ];
     }
 }

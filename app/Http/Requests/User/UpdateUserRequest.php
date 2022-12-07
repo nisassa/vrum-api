@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -38,6 +39,10 @@ class UpdateUserRequest extends FormRequest
             'landline' => 'nullable|string|max:255',
             'discard' => 'nullable|number|max:255',
             'photo' => 'nullable|string|max:525',
+            'business_days' => 'required|array',
+            'business_days.*.id' => Rule::exists('working_days', 'id')->where(function ($query) {
+                $query->where('user_id', $this->user()->id);
+            }),
         ];
     }
 }

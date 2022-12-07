@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\AdjustableDetailLevelResource;
 use App\Http\Resources\UserResource;
 use App\Listeners\CreateWorkingHours;
+use App\Listeners\UpdateWorkingHours;
 use App\Models\ServiceType;
 use App\Models\User;
 
@@ -31,9 +32,13 @@ class StaffMembers extends Controller
         }
 
         $input = $request->validated();
-        $user->fill(array_merge($input));
+        $businessDays = $request->input('business_days');
+        unset($input['business_days']);
 
+        $user->fill(array_merge($input));
         $user->save();
+
+        UpdateWorkingHours::dispatch($user, $businessDays);
 
         return response()->json([
             'success' => true
@@ -47,12 +52,15 @@ class StaffMembers extends Controller
 
         return response()->json([
             'success' => true,
-            'resource' => new UserResource($user,AdjustableDetailLevelResource::DETAIL_ALL)
+            'resource' => new UserResource($user->refresh(),AdjustableDetailLevelResource::DETAIL_ALL)
         ]);
     }
 
     public function paginateStaff(ProviderIndexRequest $request) {
-        $users = User::where('provider_id', $request->user()->provider_id)->paginate();
+
+        $users = User::where('provider_id', $request->user()->provider_id)
+            ->paginate(2);
+
         return response()->json([
             'success' => true,
             'users' => $users
