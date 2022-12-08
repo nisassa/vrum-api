@@ -58,12 +58,25 @@ class StaffMembers extends Controller
 
     public function paginateStaff(ProviderIndexRequest $request) {
 
-        $users = User::where('provider_id', $request->user()->provider_id)
-            ->paginate(2);
+        $searchQuery = $request->input('q');
 
+        $users = User::where('provider_id', $request->user()->provider_id);
+
+        if (! empty($searchQuery)) {
+            $users
+                ->where(function ($query) use ($searchQuery) {
+                    $query
+                        ->where(\DB::raw('CONCAT_WS(" ", `first_name`, `last_name`)'), 'like', '%' . $searchQuery . '%')
+                        ->orWhere('first_name', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('email', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('phone', 'like', '%' . $searchQuery . '%');
+                });
+        }
+        
         return response()->json([
             'success' => true,
-            'users' => $users
+            'users' => $users->paginate()
         ]);
     }
 

@@ -16,8 +16,8 @@ class CreateWorkingDaysTable extends Migration
         Schema::create('working_days', function (Blueprint $table) {
             $table->id();
             $table->string('day');
-            $table->time('start_at');
-            $table->time('end_at');
+            $table->time('start_at')->nullable();
+            $table->time('end_at')->nullable();
             $table->unsignedInteger('provider_id')->nullable()->default(0);
             $table->unsignedInteger('user_id')->nullable()->default(0);
             $table->unsignedTinyInteger('is_active')->default(0);
