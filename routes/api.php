@@ -43,18 +43,20 @@ Route::name('api.')->group(static function () {
             Route::get('/photo-gallery', [ProviderPhotosGallery::class, 'getPhotos']);
             Route::delete('/photo-gallery/{photo}', [ProviderPhotosGallery::class, 'remove']);
 
-            Route::get('services', [ProviderServices::class, 'getProviderServices']);
-            Route::post('services', [ProviderServices::class, 'createService']);
-            Route::post('toggleServiceType/{user}/{service}', [ProviderServices::class, 'createService']);
-
+            Route::get('services/paginate', [ProviderServices::class, 'paginateServices']);
+            Route::put('services', [ProviderServices::class, 'createService']);
+            Route::post('services/{service}', [ProviderServices::class, 'update']);
+            Route::get('services/{service}', [ProviderServices::class, 'getService']);
+            Route::delete('services/{service}', [ProviderServices::class, 'delete']);
+            
+            
             Route::get('staff/paginate', [ProviderStaffMembers::class, 'paginateStaff']);
             Route::put('staff', [ProviderStaffMembers::class, 'storeMember']);
             Route::post('staff/{user}', [ProviderStaffMembers::class, 'updateMember']);
             Route::get('staff/{user}', [ProviderStaffMembers::class, 'getUser']);
             Route::delete('staff/{user}', [ProviderStaffMembers::class, 'delete']);
-
+        
             Route::post('staff/toggle/service/{user}/{service}', [ProviderStaffMembers::class, 'toggleServiceType']);
-
 
             Route::post('services/update/{serviceType}', [ProviderServices::class, 'updateService']);
             Route::post('services/toggleDisplay/{serviceType}', [ProviderServices::class, 'toggleDisplay']);

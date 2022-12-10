@@ -36,7 +36,7 @@ class ProviderRegisterRequest extends Request
                     $query->where('discard', 0);
                 })
             ],
-            'postcode' => 'required|string|max:50',
+            'postcode' => 'nullable|string|max:50',
             'line_1' => 'required|string|max:255',
             'line_2' => 'nullable|string|max:255',
             'city' => 'required|string|max:255',

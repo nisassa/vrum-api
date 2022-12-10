@@ -4,7 +4,7 @@ namespace App\Http\Requests\Provider\Service;
 
 use App\Http\Requests\Provider\IndexRequest;
 
-class CreateRequest extends IndexRequest
+class UpdatedRequest extends IndexRequest
 {
     /**
      * Get the validation rules that apply to the request.

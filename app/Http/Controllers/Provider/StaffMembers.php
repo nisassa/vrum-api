@@ -35,7 +35,7 @@ class StaffMembers extends Controller
         $businessDays = $request->input('business_days');
         unset($input['business_days']);
 
-        $user->fill(array_merge($input));
+        $user->fill($input);
         $user->save();
 
         UpdateWorkingHours::dispatch($user, $businessDays);

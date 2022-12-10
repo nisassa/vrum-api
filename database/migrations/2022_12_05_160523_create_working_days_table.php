@@ -24,7 +24,6 @@ class CreateWorkingDaysTable extends Migration
 
             $table->index('provider_id', 'provider_id');
             $table->index('user_id', 'user_id');
-
             
             $table->timestamps();
         });
