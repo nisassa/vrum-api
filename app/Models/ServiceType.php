@@ -26,7 +26,8 @@ class ServiceType extends Model
         'auto_allocation',
         'cost',
         'duration_in_minutes',
-        'vat'
+        'vat',
+        'category_id'
     ];
 
     protected $visible = [
@@ -41,11 +42,18 @@ class ServiceType extends Model
         'auto_allocation',
         'cost',
         'duration_in_minutes',
-        'vat'
+        'vat',
+        'category_id'
     ];
 
     public function provider()
     {
         return $this->BelongsTo(Provider::class, 'provider_id', 'id');
+    }
+
+
+    public function category()
+    {
+        return $this->BelongsTo(ServiceCategory::class, 'category_id', 'id');
     }
 }

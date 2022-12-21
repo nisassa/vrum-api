@@ -30,7 +30,9 @@ class ServiceTypeResource extends AdjustableDetailLevelResource
                 'auto_allocation' => $this->auto_allocation,
                 'cost' => $this->cost,
                 'duration_in_minutes' => $this->vat,
-                'vat' => $this->vat
+                'vat' => $this->vat,
+                'category' => new ServiceCategoryResource($this->whenLoaded('category'), $this->detailLevel),
+                'category_id' => $this->category_id
             ];
         }
     }

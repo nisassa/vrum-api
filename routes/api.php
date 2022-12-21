@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Provider\Services as ProviderServices;
 use App\Http\Controllers\Provider\StaffMembers as ProviderStaffMembers;
+use App\Http\Controllers\Provider\ServiceCategories as ProviderServiceCategory;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\Provider\PhotosGallery as ProviderPhotosGallery;
 
@@ -43,12 +44,18 @@ Route::name('api.')->group(static function () {
             Route::get('/photo-gallery', [ProviderPhotosGallery::class, 'getPhotos']);
             Route::delete('/photo-gallery/{photo}', [ProviderPhotosGallery::class, 'remove']);
 
-            Route::get('services/paginate', [ProviderServices::class, 'paginateServices']);
+            Route::get('services-paginate', [ProviderServices::class, 'paginateServices']);
             Route::put('services', [ProviderServices::class, 'createService']);
             Route::post('services/{service}', [ProviderServices::class, 'update']);
             Route::get('services/{service}', [ProviderServices::class, 'getService']);
             Route::delete('services/{service}', [ProviderServices::class, 'delete']);
-            
+
+            Route::get('services-categories', [ProviderServiceCategory::class, 'paginate']);
+            Route::get('services-categories/{category}', [ProviderServiceCategory::class, 'getByCategory']);
+            Route::put('services/category', [ProviderServiceCategory::class, 'create']);
+            Route::post('services/category/{category}', [ProviderServiceCategory::class, 'update']);
+            Route::delete('services/category/{category}', [ProviderServiceCategory::class, 'delete']);
+        
             
             Route::get('staff/paginate', [ProviderStaffMembers::class, 'paginateStaff']);
             Route::put('staff', [ProviderStaffMembers::class, 'storeMember']);

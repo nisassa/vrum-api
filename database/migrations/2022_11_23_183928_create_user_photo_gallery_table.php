@@ -14,7 +14,7 @@ class CreateUserPhotoGalleryTable extends Migration
     public function up()
     {
         Schema::create('photo_gallery', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('photo', 255);
             $table->string('name', 255)->nullable();
             $table->unsignedTinyInteger('discard')->default(0);

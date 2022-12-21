@@ -14,7 +14,7 @@ class CreateUserServiceTypesTable extends Migration
     public function up()
     {
         Schema::create('user_service_types', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('service_type_id');
 

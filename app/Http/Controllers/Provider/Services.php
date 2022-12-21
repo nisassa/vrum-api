@@ -13,6 +13,7 @@ use App\Http\Requests\Provider\Service\GetRequest as GetProviderServiceRequest;
 
 class Services extends Controller
 {   
+
     public function getService(GetProviderServiceRequest $request, ServiceType $service) {
         if ($request->user()->provider_id !== $service->provider_id) {
             abort(403, 'Unauthorised');
@@ -20,18 +21,18 @@ class Services extends Controller
 
         return response()->json([
             'success' => true,
-            'resource' => new ServiceTypeResource($service->refresh(), AdjustableDetailLevelResource::DETAIL_ALL)
+            'resource' => new ServiceTypeResource($service->refresh()->load('category'), AdjustableDetailLevelResource::DETAIL_ALL)
         ]);
     }
 
     public function paginateServices(ProviderIndexRequest  $request)
     {
         $services = ServiceType::whereIn('provider_id', [$request->user()->provider_id, 0])
-            ->with("provider")
+            ->with("provider", "category")
             ->paginate(30);
 
         return response()->json([
-            'resource' => ServiceTypeResource::collection($services, AdjustableDetailLevelResource::DETAIL_ALL)
+            'resource' => $services
         ]);
     }
 
