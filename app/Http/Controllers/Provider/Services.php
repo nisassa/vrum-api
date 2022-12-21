@@ -13,7 +13,6 @@ use App\Http\Requests\Provider\Service\GetRequest as GetProviderServiceRequest;
 
 class Services extends Controller
 {   
-
     public function getService(GetProviderServiceRequest $request, ServiceType $service) {
         if ($request->user()->provider_id !== $service->provider_id) {
             abort(403, 'Unauthorised');

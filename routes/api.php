@@ -39,6 +39,7 @@ Route::name('api.')->group(static function () {
         Route::post('upload', [FileUploadController::class, 'upload']);
 
         Route::prefix('provider')->name('provider.')->group(function () {
+            
             Route::post('/', [AuthController::class, 'updateProvider']);
 
             Route::get('/photo-gallery', [ProviderPhotosGallery::class, 'getPhotos']);

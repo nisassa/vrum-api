@@ -199,6 +199,7 @@ class AuthController extends Controller
         $user->notify(new ProviderRegistered());
 
         CreateWorkingHours::dispatch($provider);
+        CreateWorkingHours::dispatch($user);
 
         return response()->json(['success' => true]);
     }
