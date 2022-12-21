@@ -7,8 +7,8 @@ use App\Http\Requests\Provider\Category\CreateRequest as CreateCategoryRequest;
 use App\Http\Requests\Provider\Category\UpdatedRequest as UpdateCategoryRequest;
 use App\Models\{ ServiceCategory };
 use App\Http\Controllers\Controller;
-use App\Http\Resources\{ServiceTypeResource};
-use App\Http\Resources\AdjustableDetailLevelResource;
+use App\Http\Resources\{ServiceTypeResource, ServiceCategoryResource};
+
 class ServiceCategories extends Controller
 {
     public function paginate(ProviderIndexRequest $request) {
@@ -18,6 +18,19 @@ class ServiceCategories extends Controller
         return response()->json([
             'success' => true,
             'resource' => $categories
+        ]);
+    }
+
+    public function groupByCategory(ProviderIndexRequest $request) {
+
+        $categories = ServiceCategory::with([
+            'services' => function ($query) use ($request) {
+                $query->whereIn('provider_id', [$request->user()->provider_id, 0]); 
+        }])->get();
+
+        return response()->json([
+            'success' => true,
+            'resource' => ServiceCategoryResource::collection($categories)
         ]);
     }
 

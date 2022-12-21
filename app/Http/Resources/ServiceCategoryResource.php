@@ -19,7 +19,8 @@ class ServiceCategoryResource extends AdjustableDetailLevelResource
             'slug' => $this->slug,
             'description' => $this->description,
             'icon' => $this->icon,
-            'discard' => $this->discard
+            'discard' => $this->discard,
+            'services' => ServiceTypeResource::collection($this->whenLoaded('services')),
         ];
     }
 }

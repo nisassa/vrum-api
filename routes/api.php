@@ -52,6 +52,7 @@ Route::name('api.')->group(static function () {
             Route::delete('services/{service}', [ProviderServices::class, 'delete']);
 
             Route::get('services-categories', [ProviderServiceCategory::class, 'paginate']);
+            Route::get('services/groupby/categories', [ProviderServiceCategory::class, 'groupByCategory']);
             Route::get('services-categories/{category}', [ProviderServiceCategory::class, 'getByCategory']);
             Route::put('services/category', [ProviderServiceCategory::class, 'create']);
             Route::post('services/category/{category}', [ProviderServiceCategory::class, 'update']);

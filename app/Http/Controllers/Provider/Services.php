@@ -24,7 +24,7 @@ class Services extends Controller
         ]);
     }
 
-    public function paginateServices(ProviderIndexRequest  $request)
+    public function paginateServices(ProviderIndexRequest $request)
     {
         $services = ServiceType::whereIn('provider_id', [$request->user()->provider_id, 0])
             ->with("provider", "category")
