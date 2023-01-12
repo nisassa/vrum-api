@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Provider\Services as ProviderServices;
+use App\Http\Controllers\Provider\Services;
 use App\Http\Controllers\Provider\StaffMembers as ProviderStaffMembers;
-use App\Http\Controllers\Provider\ServiceCategories as ProviderServiceCategory;
+use App\Http\Controllers\Provider\ServiceCategories;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\Provider\PhotosGallery as ProviderPhotosGallery;
 
@@ -38,6 +38,13 @@ Route::name('api.')->group(static function () {
 
         Route::post('upload', [FileUploadController::class, 'upload']);
 
+        Route::get('services-categories', [ServiceCategories::class, 'paginate']);
+        Route::get('services/groupby/categories', [ServiceCategories::class, 'groupByCategory']);
+        Route::get('services-categories/{category}', [ServiceCategories::class, 'getByCategory']);
+
+        Route::post('services/category/{category}', [ServiceCategories::class, 'update']);
+        Route::delete('services/category/{category}', [ServiceCategories::class, 'delete']);
+
         Route::prefix('provider')->name('provider.')->group(function () {
             
             Route::post('/', [AuthController::class, 'updateProvider']);
@@ -45,19 +52,13 @@ Route::name('api.')->group(static function () {
             Route::get('/photo-gallery', [ProviderPhotosGallery::class, 'getPhotos']);
             Route::delete('/photo-gallery/{photo}', [ProviderPhotosGallery::class, 'remove']);
 
-            Route::get('services-paginate', [ProviderServices::class, 'paginateServices']);
-            Route::put('services', [ProviderServices::class, 'createService']);
-            Route::post('services/{service}', [ProviderServices::class, 'update']);
-            Route::get('services/{service}', [ProviderServices::class, 'getService']);
-            Route::delete('services/{service}', [ProviderServices::class, 'delete']);
-
-            Route::get('services-categories', [ProviderServiceCategory::class, 'paginate']);
-            Route::get('services/groupby/categories', [ProviderServiceCategory::class, 'groupByCategory']);
-            Route::get('services-categories/{category}', [ProviderServiceCategory::class, 'getByCategory']);
-            Route::put('services/category', [ProviderServiceCategory::class, 'create']);
-            Route::post('services/category/{category}', [ProviderServiceCategory::class, 'update']);
-            Route::delete('services/category/{category}', [ProviderServiceCategory::class, 'delete']);
-        
+            // Route::get('services-paginate', [Services::class, 'paginateServices']);
+            Route::put('services', [Services::class, 'createService']);
+            Route::get('my-services', [Services::class, 'getMyServices']);
+            Route::post('my-services/update', [Services::class, 'update']);
+            
+            // Route::get('services/{service}', [Services::class, 'getService']);
+            // Route::delete('services/{service}', [Services::class, 'delete']);    
             
             Route::get('staff/paginate', [ProviderStaffMembers::class, 'paginateStaff']);
             Route::put('staff', [ProviderStaffMembers::class, 'storeMember']);
@@ -66,10 +67,11 @@ Route::name('api.')->group(static function () {
             Route::delete('staff/{user}', [ProviderStaffMembers::class, 'delete']);
         
             Route::post('staff/toggle/service/{user}/{service}', [ProviderStaffMembers::class, 'toggleServiceType']);
-
-            Route::post('services/update/{serviceType}', [ProviderServices::class, 'updateService']);
-            Route::post('services/toggleDisplay/{serviceType}', [ProviderServices::class, 'toggleDisplay']);
-            Route::delete('services/{serviceType}', [ProviderServices::class, 'destroyService']);
+            
+            Route::post('toggle/service/{provider}/{service}', [Services::class, 'toggleServiceType']);
+            Route::post('services/update/{serviceType}', [Services::class, 'updateService']);
+            Route::post('services/toggleDisplay/{serviceType}', [Services::class, 'toggleDisplay']);
+            // Route::delete('services/{serviceType}', [ProviderServices::class, 'destroyService']);
         });
     });
 });

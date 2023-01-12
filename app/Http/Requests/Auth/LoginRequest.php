@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Validation\Rule;
 use App\Http\Requests\Request;
 
 class LoginRequest extends Request

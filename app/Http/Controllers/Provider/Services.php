@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Provider;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AdjustableDetailLevelResource;
 use App\Http\Resources\ServiceTypeResource;
-use App\Models\{ ServiceType };
+use App\Models\{ ServiceType, Provider, ProviderServices };
 use App\Http\Requests\Provider\IndexRequest as ProviderIndexRequest;
 use App\Http\Requests\Provider\Service\CreateRequest as CreateProviderServiceRequest;
 use App\Http\Requests\Provider\Service\UpdatedRequest as UpdateProviderServiceRequest;
@@ -21,6 +21,14 @@ class Services extends Controller
         return response()->json([
             'success' => true,
             'resource' => new ServiceTypeResource($service->refresh()->load('category'), AdjustableDetailLevelResource::DETAIL_ALL)
+        ]);
+    }
+
+
+    public function getMyServices(GetProviderServiceRequest $request) {
+        return response()->json([
+            'success' => true,
+            'resource' => ServiceTypeResource::collection($request->user()->provider->services)
         ]);
     }
 
@@ -44,12 +52,14 @@ class Services extends Controller
         ]);
     }
 
-    public function update(UpdateProviderServiceRequest $request, ServiceType $service) {
-        if ($service->provider_id !== $request->user()->provider_id)  {
-            abort(403);
-        }
+    public function update(UpdateProviderServiceRequest $request) {
 
-        $input = $request->validated();
+        $service = ProviderServices::where([
+            ['provider_id', '=', $request->user()->provider_id],
+            ['service_id', '=', $request->service_id],
+        ])->firstOrFail();
+
+        $input = $request->only(['vat', 'cost']);
 
         $service->fill($input);
         $service->save();
@@ -105,6 +115,20 @@ class Services extends Controller
         $serviceType->discard = 1;
         $serviceType->save();
 
+        return response()->json([
+            'success' => true
+        ]);
+    }
+
+
+    public function toggleServiceType(ProviderIndexRequest $request, Provider $provider, ServiceType $service)  {
+
+        if ($provider->services()->where('service_id', $service->id)->exists()) {
+            $provider->services()->detach($service->id);
+        } else {
+            $provider->services()->attach($service->id);
+        }
+        
         return response()->json([
             'success' => true
         ]);

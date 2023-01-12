@@ -15,13 +15,11 @@ class UpdatedRequest extends IndexRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'notes' => 'required|string|max:255',
-            'display' => 'nullable|numeric',
-            'position' => 'nullable|numeric',
-            'category_id' => Rule::exists('service_category', 'id')->where(function ($query) {
-                $query->where('discard', 0);
+            'service_id' => Rule::exists('provider_services', 'service_id')->where(function ($query) {
+                $query->where('provider_id', auth()->user()->provider_id);
             }),
+            'cost' => 'nullable|numeric',
+            'vat' => 'nullable|numeric',
         ];
     }
 }

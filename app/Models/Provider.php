@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Discards;
-use ViewberBase\ViewingItem;
+use App\Models\ProviderServices;
 use App\Interfaces\HasWorkingDays;
 
 class Provider extends Model implements HasWorkingDays
@@ -92,13 +92,18 @@ class Provider extends Model implements HasWorkingDays
         return $this->hasMany(PhotoGallery::class, 'provider_id', 'id');
     }
 
-    public function services()
-    {
-        return $this->hasMany(ServiceType::class, 'provider_id', 'id');
-    }
-
     public function working_days()
     {
         return $this->hasMany(WorkingDays::class, 'provider_id', 'id');
+    }
+
+    public function services()
+    {
+        return $this
+            ->belongsToMany(ServiceType::class, 'provider_services', 'provider_id', 'service_id')
+            ->withPivot([
+                'provider_id',
+                'service_id'
+            ]);
     }
 }

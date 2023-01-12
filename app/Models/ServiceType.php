@@ -27,7 +27,8 @@ class ServiceType extends Model
         'cost',
         'duration_in_minutes',
         'vat',
-        'category_id'
+        'category_id',
+        'approved'
     ];
 
     protected $visible = [
@@ -43,14 +44,9 @@ class ServiceType extends Model
         'cost',
         'duration_in_minutes',
         'vat',
-        'category_id'
+        'category_id',
+        'approved'
     ];
-
-    public function provider()
-    {
-        return $this->BelongsTo(Provider::class, 'provider_id', 'id');
-    }
-
 
     public function category()
     {

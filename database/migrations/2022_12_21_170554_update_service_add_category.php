@@ -16,6 +16,7 @@ class UpdateServiceAddCategory extends Migration
         Schema::table('service_types', function (Blueprint $table) {
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('service_category')->onDelete('cascade');
+            $table->unsignedTinyInteger('approved')->default(0);
         });
     }
 
