@@ -55,6 +55,7 @@ Route::name('api.')->group(static function () {
             // Route::get('services-paginate', [Services::class, 'paginateServices']);
             Route::put('services', [Services::class, 'createService']);
             Route::get('my-services', [Services::class, 'getMyServices']);
+            Route::get('service-types', [Services::class, 'getServiceTypes']);
             Route::post('my-services/update', [Services::class, 'update']);
             
             // Route::get('services/{service}', [Services::class, 'getService']);

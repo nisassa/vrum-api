@@ -23,8 +23,14 @@ class Services extends Controller
             'resource' => new ServiceTypeResource($service->refresh()->load('category'), AdjustableDetailLevelResource::DETAIL_ALL)
         ]);
     }
+    public function getServiceTypes(GetProviderServiceRequest $request) {
+        $services = ServiceType::where('discard', 0)->get();
 
-
+        return response()->json([
+            'success' => true,
+            'resource' => ServiceTypeResource::collection($services)
+        ]);
+    }
     public function getMyServices(GetProviderServiceRequest $request) {
         return response()->json([
             'success' => true,
