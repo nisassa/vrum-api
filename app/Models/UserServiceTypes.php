@@ -9,6 +9,7 @@ class UserServiceTypes extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
 
     /**
      * @var string

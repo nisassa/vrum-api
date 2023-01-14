@@ -116,10 +116,10 @@ class User extends Authenticatable implements JWTSubject, HasWorkingDays
     public function service_types()
     {
         return $this
-            ->belongsToMany(ServiceType::class, 'user_service_types', 'service_type_id', 'user_id')
+            ->belongsToMany(ServiceType::class, 'user_service_types', 'user_id', 'service_type_id')
             ->withPivot([
-                'service_type_id',
-                'user_id'
+                'user_id',
+                'service_type_id'
             ]);
     }
 

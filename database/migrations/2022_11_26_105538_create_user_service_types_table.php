@@ -18,8 +18,6 @@ class CreateUserServiceTypesTable extends Migration
             $table->integer('user_id');
             $table->integer('service_type_id');
 
-            $table->timestamps();
-
             $table->unique('user_id', 'service_type_id');
         });
     }
