@@ -32,6 +32,7 @@ class UserResource extends AdjustableDetailLevelResource
                 'phone' => $this->phone,
                 'provider' => new ProviderResource($this->whenLoaded('provider'), $this->detailLevel),
                 'working_days' => WorkingDays::collection($this->whenLoaded('working_days')),
+                'service_types' => ServiceTypeResource::collection($this->whenLoaded('service_types')),
                 'admin' => $this->admin,
                 'developer' => $this->developer,
                 'discard' => $this->discard,

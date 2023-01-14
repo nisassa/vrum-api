@@ -52,7 +52,10 @@ class StaffMembers extends Controller
 
         return response()->json([
             'success' => true,
-            'resource' => new UserResource($user->refresh(),AdjustableDetailLevelResource::DETAIL_ALL)
+            'resource' => new UserResource(
+                $user->refresh()->load('service_types'), 
+                AdjustableDetailLevelResource::DETAIL_ALL
+            )
         ]);
     }
 
