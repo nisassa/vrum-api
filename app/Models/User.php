@@ -119,7 +119,7 @@ class User extends Authenticatable implements JWTSubject, HasWorkingDays
             ->belongsToMany(ServiceType::class, 'user_service_types', 'user_id', 'service_type_id')
             ->withPivot([
                 'user_id',
-                'service_type_id'
+                'service_type_id',
             ]);
     }
 

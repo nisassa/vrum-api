@@ -31,7 +31,7 @@ class Services extends Controller
             'resource' => ServiceTypeResource::collection($services)
         ]);
     }
-    public function getMyServices(GetProviderServiceRequest $request) {
+    public function getMyServices(GetProviderServiceRequest $request) {    
         return response()->json([
             'success' => true,
             'resource' => ServiceTypeResource::collection($request->user()->provider->services)

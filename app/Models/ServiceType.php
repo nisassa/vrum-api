@@ -48,6 +48,8 @@ class ServiceType extends Model
         'approved'
     ];
 
+    
+
     public function category()
     {
         return $this->BelongsTo(ServiceCategory::class, 'category_id', 'id');

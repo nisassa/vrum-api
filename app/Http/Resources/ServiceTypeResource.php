@@ -32,7 +32,10 @@ class ServiceTypeResource extends AdjustableDetailLevelResource
                 'duration_in_minutes' => $this->vat,
                 'vat' => $this->vat,
                 'category' => new ServiceCategoryResource($this->whenLoaded('category'), $this->detailLevel),
-                'category_id' => $this->category_id
+                'category_id' => $this->category_id,
+                'pivot_cost' => $this->pivot->cost ?? null,
+                'pivot_duration_in_minutes' => $this->pivot->duration_in_minutes ?? null,
+                'pivot_vat' => $this->pivot->vat ?? null,
             ];
         }
     }

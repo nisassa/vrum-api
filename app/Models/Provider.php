@@ -103,7 +103,10 @@ class Provider extends Model implements HasWorkingDays
             ->belongsToMany(ServiceType::class, 'provider_services', 'provider_id', 'service_id')
             ->withPivot([
                 'provider_id',
-                'service_id'
+                'service_id',
+                'duration_in_minutes',
+                'cost',
+                'vat'
             ]);
     }
 }
