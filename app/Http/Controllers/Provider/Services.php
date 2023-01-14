@@ -65,7 +65,7 @@ class Services extends Controller
             ['service_id', '=', $request->service_id],
         ])->firstOrFail();
 
-        $input = $request->only(['vat', 'cost']);
+        $input = $request->only(['vat', 'cost', 'duration_in_minutes']);
 
         $service->fill($input);
         $service->save();

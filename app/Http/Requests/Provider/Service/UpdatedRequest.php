@@ -20,6 +20,8 @@ class UpdatedRequest extends IndexRequest
             }),
             'cost' => 'nullable|numeric',
             'vat' => 'nullable|numeric',
+            'duration_in_minutes' => 'nullable|numeric',
         ];
+
     }
 }

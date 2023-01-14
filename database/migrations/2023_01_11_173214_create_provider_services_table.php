@@ -19,6 +19,7 @@ class CreateProviderServicesTable extends Migration
             $table->integer('service_id');
             $table->float('cost')->default(0.0);
             $table->float('vat')->default(0.0);
+            $table->integer('duration_in_minutes')->default(0);
             $table->unique(['provider_id', 'service_id']);
         });
     }

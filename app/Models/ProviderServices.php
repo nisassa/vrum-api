@@ -28,6 +28,7 @@ class ProviderServices extends Model
         'provider_id',
         'service_id',
         'cost',
-        'vat'
+        'vat',
+        'duration_in_minutes'
     ];
 }

@@ -22,10 +22,9 @@ class ServiceCategories extends Controller
     }
 
     public function groupByCategory(ProviderIndexRequest $request) {
-
         $categories = ServiceCategory::with([
             'services' => function ($query) use ($request) {
-                $query->whereIn('provider_id', [$request->user()->provider_id, 0]); 
+                $query->where('approved', 1); 
         }])->get();
 
         return response()->json([
@@ -65,7 +64,7 @@ class ServiceCategories extends Controller
 
     public function create(CreateCategoryRequest $request) {
          
-        ServiceCategory::create($request->validated());
+        ServiceCategory::create(array_merge($request->validated()));
 
         return response()->json([
             'success' => true
