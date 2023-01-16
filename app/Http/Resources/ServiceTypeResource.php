@@ -35,7 +35,7 @@ class ServiceTypeResource extends AdjustableDetailLevelResource
                 'category_id' => $this->category_id,
                 'pivot_cost' => $this->pivot->cost ?? null,
                 'pivot_duration_in_minutes' => $this->pivot->duration_in_minutes ?? null,
-                'pivot_vat' => $this->pivot->vat ?? null,
+                // 'pivot_vat' => $this->pivot->vat ?? null,
             ];
         }
     }
