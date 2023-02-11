@@ -16,7 +16,7 @@ class FileUploadController extends Controller
         switch ($request->entity) {
             case in_array($request->entity, ['photo_gallery', 'user']):
                 $validator = Validator::make($request->all(), [
-                    'photo' => 'required|mimes:'.$allowedImagesMimes.'|max:1000'
+                    'photo' => 'required|mimes:'.$allowedImagesMimes.'|max:5000'
                 ]);
                 if ($validator->fails()) {
                     return response()->json([

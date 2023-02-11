@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Client\Provider as ClientProviders;
 use App\Http\Controllers\Provider\Services;
 use App\Http\Controllers\Provider\StaffMembers as ProviderStaffMembers;
 use App\Http\Controllers\Provider\ServiceCategories;
@@ -27,6 +28,9 @@ Route::name('api.')->group(static function () {
     Route::any('/auth/logout', [AuthController::class, 'logout']);
     Route::post('/auth/password/email', [AuthController::class, 'sendResetLinkEmail']);
     Route::post('/auth/password/reset', [AuthController::class, 'reset']);
+
+
+    Route::get('/providers/search', [ClientProviders::class, 'searchProviders']);
 
     Route::middleware(['jwt.auth'])->group(function () {
 
