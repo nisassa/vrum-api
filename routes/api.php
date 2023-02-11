@@ -31,6 +31,7 @@ Route::name('api.')->group(static function () {
 
 
     Route::get('/providers/search', [ClientProviders::class, 'searchProviders']);
+    Route::get('/providers/cities', [ClientProviders::class, 'listCities']);
 
     Route::middleware(['jwt.auth'])->group(function () {
 

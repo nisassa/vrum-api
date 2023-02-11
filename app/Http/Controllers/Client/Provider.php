@@ -13,23 +13,35 @@ class Provider extends Controller
         $searchQuery = $request->input('q');
         
         $providers = ProviderModel::query();
-        dd($providers->get());
-
         if (! empty($searchQuery)) {
-            $users
+            $providers
                 ->where(function ($query) use ($searchQuery) {
                     $query
-                        ->where(\DB::raw('CONCAT_WS(" ", `first_name`, `last_name`)'), 'like', '%' . $searchQuery . '%')
-                        ->orWhere('first_name', 'like', '%' . $searchQuery . '%')
-                        ->orWhere('last_name', 'like', '%' . $searchQuery . '%')
-                        ->orWhere('email', 'like', '%' . $searchQuery . '%')
-                        ->orWhere('phone', 'like', '%' . $searchQuery . '%');
+                        ->where('name', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('line_1', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('city', 'like', '%' . $searchQuery . '%');
                 });
         }
         
         return response()->json([
             'success' => true,
-            'users' => $users->paginate()
+            'users' => $providers->paginate()
+        ]);
+    }
+
+
+    public function listCities(Request $request)
+    {
+        $citie = \DB::table('providers')
+            ->distinct()
+            ->select('city')
+            ->orderBy('city', 'ASC')
+            ->get()
+            ->toArray();
+        
+        return response()->json([
+            'success' => true,
+            'cities' => $citie
         ]);
     }
 }
