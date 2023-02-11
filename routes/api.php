@@ -30,7 +30,7 @@ Route::name('api.')->group(static function () {
     Route::post('/auth/password/reset', [AuthController::class, 'reset']);
 
 
-    Route::get('/providers/search', [ClientProviders::class, 'searchProviders']);
+    Route::get('/providers/paginate', [ClientProviders::class, 'paginateProviders']);
     Route::get('/providers/cities', [ClientProviders::class, 'listCities']);
 
     Route::middleware(['jwt.auth'])->group(function () {

@@ -8,9 +8,10 @@ use App\Models\Provider as ProviderModel;
 
 class Provider extends Controller
 {
-    public function searchProviders(Request $request)
+    public function paginateProviders(Request $request)
     {
         $searchQuery = $request->input('q');
+        $city = $request->input('city');
         
         $providers = ProviderModel::query();
         if (! empty($searchQuery)) {
@@ -22,6 +23,10 @@ class Provider extends Controller
                         ->orWhere('city', 'like', '%' . $searchQuery . '%');
                 });
         }
+
+        if (! empty($city)) {
+            $providers->where('city', $city);      
+        }  
         
         return response()->json([
             'success' => true,
