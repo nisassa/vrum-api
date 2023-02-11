@@ -31,7 +31,7 @@ class CreateBookingsTable extends Migration
             
             $table->unsignedTinyInteger('rejected')->default(0);
             $table->timestamp('rejected_at')->nullable();    
-            $table->integer('rejected_by')->default(0);
+            $table->unsignedBigInteger('rejected_by')->default(0);
             $table->string('rejected_reason')->nullable();
 
             $table->unsignedBigInteger('provider_id');
