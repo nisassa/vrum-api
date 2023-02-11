@@ -23,6 +23,7 @@ class CreateBookingsTable extends Migration
             $table->unsignedTinyInteger('cancelled')->default(0);
             $table->timestamp('cancelled_at')->nullable();    
             $table->string('cancelled_reason')->nullable();    
+            $table->timestamp('change_created_at')->nullable();    
             
             $table->unsignedTinyInteger('rejected')->default(0);
             $table->timestamp('rejected_at')->nullable();    
