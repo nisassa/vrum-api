@@ -27,10 +27,10 @@ class Provider extends Controller
         if (! empty($city)) {
             $providers->where('city', $city);      
         }  
-        
+
         return response()->json([
             'success' => true,
-            'users' => $providers->paginate()
+            'providers' => $providers->paginate()
         ]);
     }
 

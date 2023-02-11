@@ -40,6 +40,7 @@ class ProviderResource extends AdjustableDetailLevelResource
                 'postcode' => $this->postcode,
                 'lat' => $this->lat,
                 'long' => $this->long,
+                'type' => $this->type,
                 'working_days' => WorkingDays::collection($this->whenLoaded('working_days')),
             ];
         }

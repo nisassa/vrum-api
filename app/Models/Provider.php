@@ -60,6 +60,9 @@ class Provider extends Model implements HasWorkingDays
         'postcode',
         'lat',
         'long',
+        'type',
+        'photo_gallery',
+        'busines_hours'
     ];
 
     /**
@@ -85,6 +88,11 @@ class Provider extends Model implements HasWorkingDays
         'postcode',
         'lat',
         'long',
+        'type',
+    ];
+    protected $appends = [
+        'photo_gallery',
+        'busines_hours',
     ];
 
     public function gallery_images()
@@ -108,5 +116,15 @@ class Provider extends Model implements HasWorkingDays
                 'cost',
                 'vat'
             ]);
+    }
+
+    public function getPhotoGalleryAttribute()
+    {
+        return $this->gallery_images;   
+    }
+
+    public function getBusinesHoursAttribute()
+    {
+        return $this->working_days;   
     }
 }
