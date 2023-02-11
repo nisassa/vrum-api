@@ -38,9 +38,9 @@ class ClientRegisterRequest extends Request
             'postcode' => 'nullable|string|max:50',
             'line_1' => 'nullable|string|max:255',
             'line_2' => 'nullable|string|max:255',
-            'city' => 'required|string|max:255',
+            'city' => 'nullable|string|max:255',
             'county' => 'nullable|string|max:255',
-            'country' => 'required|string|max:2',
+            'country' => 'nullable|string|max:2',
             'phone' => 'required|string|max:255',
             'password' => 'required|confirmed|string|min:5|max:255',
         ];

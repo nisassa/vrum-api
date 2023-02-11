@@ -137,7 +137,27 @@ class AuthController extends Controller
     public function registerClient(ClientRegisterRequest $request)
     {
         $input = $request->validated();
+        $location = $request->input('location');
+        
+        $city = $location['city'] ?? null;
+        $country = $location['country'] ?? null;
+        $road = $location['road'] ?? null;
+        $number = $location['number'] ?? null;
+        $latitude = $location['latitude'] ?? null;
+        $longitude = $location['longitude'] ?? null;
+        
+        if ($city) {
+            $input['city'] = $city;
+        }
 
+        if ($country) {
+            $input['country'] = $country;
+        }
+
+        if ($road && $number) {
+            $input['line_1'] = $road.' '.$number;
+        }
+        
         $user = User::create([
             'first_name' => $input['first_name'],
             'last_name' => $input['last_name'],
@@ -151,7 +171,9 @@ class AuthController extends Controller
             'postcode' => $input['postcode'] ?? null,
             'manager' => 0,
             'type' => User::CLIENT_TYPE,
-            'password' => $input['password'] = app('SdCmsEncryptHelper')->encrypt($input['password'])
+            'password' => $input['password'] = app('SdCmsEncryptHelper')->encrypt($input['password']),
+            'lat' => $latitude,
+            'long' => $longitude,
         ]);
 
         $user->notify(new ClientRegistered());
