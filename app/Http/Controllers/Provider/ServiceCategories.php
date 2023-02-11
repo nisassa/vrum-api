@@ -8,10 +8,11 @@ use App\Http\Requests\Provider\Category\UpdatedRequest as UpdateCategoryRequest;
 use App\Models\{ ServiceCategory };
 use App\Http\Controllers\Controller;
 use App\Http\Resources\{ServiceTypeResource, ServiceCategoryResource};
+use Illuminate\Http\Request;
 
 class ServiceCategories extends Controller
 {
-    public function paginate(ProviderIndexRequest $request) {
+    public function paginate(Request $request) {
 
         $categories = ServiceCategory::paginate(30);
 
@@ -21,9 +22,9 @@ class ServiceCategories extends Controller
         ]);
     }
 
-    public function groupByCategory(ProviderIndexRequest $request) {
+    public function groupByCategory(Request $request) {
         $categories = ServiceCategory::with([
-            'services' => function ($query) use ($request) {
+            'services' => function ($query) {
                 $query->where('approved', 1); 
         }])->get();
 
@@ -33,7 +34,7 @@ class ServiceCategories extends Controller
         ]);
     }
 
-    public function getByCategory(ProviderIndexRequest $request, ServiceCategory $category) {
+    public function getByCategory(Request $request, ServiceCategory $category) {
         return response()->json([
             'success' => true,
             'resource' => ServiceTypeResource::collection($category->services)

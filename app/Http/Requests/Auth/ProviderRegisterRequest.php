@@ -29,6 +29,7 @@ class ProviderRegisterRequest extends Request
             'provider_name' => 'required|string|max:255',
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
             'email' => [
                 'required',
                 'email',

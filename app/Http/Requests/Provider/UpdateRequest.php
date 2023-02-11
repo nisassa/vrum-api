@@ -19,6 +19,7 @@ class UpdateRequest extends IndexRequest
         return [
             'invoice_email' => 'required|email|string|max:255',
             'name' => 'required|string|max:50',
+            'type' => 'required|string|max:255',
             'postcode' => 'nullable|string|max:50',
             'line_1' => 'required|string|max:255',
             'line_2' => 'nullable|string|max:255',

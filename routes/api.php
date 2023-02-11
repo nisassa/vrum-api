@@ -33,7 +33,14 @@ Route::name('api.')->group(static function () {
     Route::get('/providers/paginate', [ClientProviders::class, 'paginateProviders']);
     Route::get('/providers/cities', [ClientProviders::class, 'listCities']);
 
+    Route::get('services-categories', [ServiceCategories::class, 'paginate']);
+    Route::get('services/groupby/categories', [ServiceCategories::class, 'groupByCategory']);
+    Route::get('services-categories/{category}', [ServiceCategories::class, 'getByCategory']);
+        
     Route::middleware(['jwt.auth'])->group(function () {
+
+        Route::post('services/category/{category}', [ServiceCategories::class, 'update']);
+        Route::delete('services/category/{category}', [ServiceCategories::class, 'delete']);
 
         Route::prefix('user')->name('users.')->group(function () {
             Route::get('me', [AuthController::class, 'me']);
@@ -42,13 +49,6 @@ Route::name('api.')->group(static function () {
         });
 
         Route::post('upload', [FileUploadController::class, 'upload']);
-
-        Route::get('services-categories', [ServiceCategories::class, 'paginate']);
-        Route::get('services/groupby/categories', [ServiceCategories::class, 'groupByCategory']);
-        Route::get('services-categories/{category}', [ServiceCategories::class, 'getByCategory']);
-
-        Route::post('services/category/{category}', [ServiceCategories::class, 'update']);
-        Route::delete('services/category/{category}', [ServiceCategories::class, 'delete']);
 
         Route::prefix('provider')->name('provider.')->group(function () {
             

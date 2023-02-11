@@ -173,6 +173,7 @@ class AuthController extends Controller
             'county' => $input['county'] ?? null,
             'country' => $input['country'],
             'postcode' => $input['postcode'],
+            'type' => $input['type'],
         ]);
 
         if (! $provider) {
