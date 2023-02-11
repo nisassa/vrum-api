@@ -17,6 +17,10 @@ class CreateBookingsTable extends Migration
             $table->id();
             $table->timestamps();     
             $table->string('status');
+            
+            $table->text('client_notes');
+            $table->text('provider_notes');
+
             $table->unsignedTinyInteger('discard')->default(0);
             $table->timestamp('preferred_date')->nullable();    
             
@@ -30,10 +34,10 @@ class CreateBookingsTable extends Migration
             $table->integer('rejected_by')->default(0);
             $table->string('rejected_reason')->nullable();
 
-            $table->foreign('provider_id')->references('id')->on('providers')->onDelete('cascade');
-            $table->foreign('staff_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('car_id')->references('id')->on('cars')->onDelete('cascade');
+            $table->unsignedBigInteger('provider_id');
+            $table->unsignedBigInteger('staff_id')->default(0);
+            $table->unsignedBigInteger('client_id');
+            $table->unsignedBigInteger('car_id');
         });
     }
 

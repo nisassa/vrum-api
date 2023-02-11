@@ -17,9 +17,10 @@ class CreateBookingsItemsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->unsignedTinyInteger('discard')->default(0);
-            $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');
-            $table->integer('services_id')->default(0);
             
+            $table->unsignedBigInteger('services_id')->default(0);
+            $table->unsignedBigInteger('booking_id')->default(0);
+
             $table->float('cost')->default(0.0);
             $table->float('vat')->default(0.0);
         });

@@ -36,9 +36,11 @@ class Booking extends Model
         'staff_id',
         'client_id',
         'car_id',
-        'change_created_at'
+        'change_created_at',
+        'client_notes',
+        'provider_notes',
     ];
-
+    
     protected $fillable = [
         'status',
         'discard',
@@ -54,7 +56,9 @@ class Booking extends Model
         'staff_id',
         'client_id',
         'car_id',
-        'change_created_at'
+        'change_created_at',
+        'client_notes',
+        'provider_notes',
     ];
     public function provider()
     {

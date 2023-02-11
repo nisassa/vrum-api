@@ -20,7 +20,7 @@ class ProviderServices extends Model
      * @var string
      */
     protected $primaryKey = 'id';
-
+    
     /**
      * @var string[]
      */
@@ -31,4 +31,9 @@ class ProviderServices extends Model
         'vat',
         'duration_in_minutes'
     ];
+
+    public function service()
+    {
+        return $this->belongsTo(ServiceType::class, 'service_id', 'id');
+    }
 }

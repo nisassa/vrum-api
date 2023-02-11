@@ -15,6 +15,7 @@ class ServiceCategoryResource extends AdjustableDetailLevelResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,

@@ -21,7 +21,7 @@ class CreateCarsTable extends Migration
             $table->string('model');
             $table->string('fuel_type');
             $table->string('year');
-            $table->foreign('client_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('client_id');            
         });
     }
 
