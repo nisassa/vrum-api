@@ -12,6 +12,7 @@ class Provider extends Controller
     {
         $searchQuery = $request->input('q');
         $city = $request->input('city');
+        $service_type = $request->input('service_type');
         
         $providers = ProviderModel::query();
         if (! empty($searchQuery)) {
@@ -26,6 +27,12 @@ class Provider extends Controller
 
         if (! empty($city)) {
             $providers->where('city', $city);      
+        }  
+        
+        if (! empty($service_type)) {
+            $providers->whereHas('services', function ($query) use ($service_type) {
+                $query->whereIn('service_id', [$service_type]);
+            });      
         }  
 
         return response()->json([
