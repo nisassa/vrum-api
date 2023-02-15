@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Discards;
 
 class Car extends Model
 {
-    use HasFactory;
+    use HasFactory, Discards;
 
     protected $table = 'cars';
     

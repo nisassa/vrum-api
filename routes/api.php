@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Cars\CarsController;
 use App\Http\Controllers\Client\Provider as ClientProviders;
 use App\Http\Controllers\Provider\Services;
 use App\Http\Controllers\Provider\StaffMembers as ProviderStaffMembers;
@@ -32,12 +33,20 @@ Route::name('api.')->group(static function () {
 
     Route::get('/providers/paginate', [ClientProviders::class, 'paginateProviders']);
     Route::get('/providers/cities', [ClientProviders::class, 'listCities']);
+    Route::put('/', [ClientProviders::class, 'listCities']);
 
     Route::get('services-categories', [ServiceCategories::class, 'paginate']);
     Route::get('services/groupby/categories', [ServiceCategories::class, 'groupByCategory']);
     Route::get('services-categories/{category}', [ServiceCategories::class, 'getByCategory']);
         
     Route::middleware(['jwt.auth'])->group(function () {
+
+        Route::prefix('cars')->name('cars.')->group(function () {
+            Route::get('/my', [CarsController::class, 'myCars']); 
+            Route::put('create', [CarsController::class, 'create']); 
+            Route::post('edit/{car}', [CarsController::class, 'edit']); 
+            Route::delete('delete/{car}', [CarsController::class, 'destroy']); 
+        });
 
         Route::post('services/category/{category}', [ServiceCategories::class, 'update']);
         Route::delete('services/category/{category}', [ServiceCategories::class, 'delete']);

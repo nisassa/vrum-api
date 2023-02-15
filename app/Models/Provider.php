@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Discards;
-use App\Models\ProviderServices;
 use App\Interfaces\HasWorkingDays;
 
 class Provider extends Model implements HasWorkingDays
