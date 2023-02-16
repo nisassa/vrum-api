@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Cars\CarsController;
 use App\Http\Controllers\Client\Provider as ClientProviders;
+use App\Http\Controllers\Client\Booking\BookingController as ClientBookingController;
 use App\Http\Controllers\Provider\Services;
 use App\Http\Controllers\Provider\StaffMembers as ProviderStaffMembers;
 use App\Http\Controllers\Provider\ServiceCategories;
@@ -46,6 +47,10 @@ Route::name('api.')->group(static function () {
             Route::put('create', [CarsController::class, 'create']); 
             Route::post('edit/{car}', [CarsController::class, 'edit']); 
             Route::delete('delete/{car}', [CarsController::class, 'destroy']); 
+        });
+        
+        Route::prefix('booking')->name('bkgs.')->group(function () {
+            Route::put('client-create', [ClientBookingController::class, 'create']); 
         });
 
         Route::post('services/category/{category}', [ServiceCategories::class, 'update']);

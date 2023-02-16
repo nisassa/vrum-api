@@ -30,7 +30,7 @@ class UpdateRequest extends IndexRequest
             'line_2' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'county' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:2',
+            'country' => 'nullable|string|max:255',
             'phone' => 'required|string|max:255',
             'job_title' => 'nullable|string|max:255',
             'landline' => 'nullable|string|max:255',

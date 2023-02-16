@@ -26,10 +26,8 @@ class Booking extends Model
         'status',
         'discard',
         'preferred_date',
-        'cancelled',
         'cancelled_at',
         'cancelled_reason',
-        'rejected',
         'rejected_at',
         'rejected_by',
         'rejected_reason',
@@ -84,5 +82,10 @@ class Booking extends Model
     public function car()
     {
         return $this->belongsTo(Car::class, 'car_id', 'id');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(BookingItem::class, 'booking_id', 'id');
     }
 }

@@ -32,7 +32,7 @@ class UpdateUserRequest extends FormRequest
             'line_2' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'county' => 'nullable|string|max:255',
-            'country' => 'required|string|max:2',
+            'country' => 'required|string|max:255',
             'phone' => 'required|string|max:255',
             'password' => 'required|confirmed|string|min:5|max:255',
             'job_title' => 'nullable|string|max:255',

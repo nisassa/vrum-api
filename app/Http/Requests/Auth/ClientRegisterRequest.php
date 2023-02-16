@@ -40,7 +40,7 @@ class ClientRegisterRequest extends Request
             'line_2' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'county' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:2',
+            'country' => 'nullable|string|max:255',
             'phone' => 'required|string|max:255',
             'password' => 'required|confirmed|string|min:5|max:255',
         ];
