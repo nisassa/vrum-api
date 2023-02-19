@@ -37,6 +37,6 @@ class BookingItem extends Model
 
     public function service()
     {
-        return $this->belongsTo(ProviderServices::class, 'services_id', 'id');
+        return $this->belongsTo(ServiceType::class, 'services_id', 'id');
     }
 }

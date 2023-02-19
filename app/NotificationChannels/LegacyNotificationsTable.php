@@ -3,7 +3,7 @@
 namespace App\NotificationChannels;
 
 use Illuminate\Notifications\Notification;
-use App\Notification as LegacyNotification;
+use App\Models\Notification as LegacyNotification;
 
 class LegacyNotificationsTable
 {

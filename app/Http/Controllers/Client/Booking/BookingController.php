@@ -34,8 +34,8 @@ class BookingController extends Controller
                 'vat' => $service->id,
             ]);
         }
-        
-        $booking->load(['items', 'client', 'car']);
+
+        // $booking->load(['items', 'items.service', 'client', 'car']);
         
         // get provider managers
         $accountManagers = User::where('type' ,'<>', User::CLIENT_TYPE)

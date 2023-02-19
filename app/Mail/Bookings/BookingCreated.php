@@ -33,7 +33,7 @@ class BookingCreated extends Mailable
      * @return $this
      */
     public function build()
-    {
+    {   
         return $this
             ->subject("New Boking received #{$this->booking->id}")
             ->view('emails.bookings.created_to_provider');

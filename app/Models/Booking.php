@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Discards;
+use Carbon\Carbon;
 
 class Booking extends Model
 {
@@ -13,6 +14,7 @@ class Booking extends Model
     protected $table = 'bookings';
     
     protected $primaryKey = 'id';
+
 
     const STATUS_REQUEST_UNNALOCATED = 1;
 
@@ -59,6 +61,19 @@ class Booking extends Model
         'client_notes',
         'provider_notes',
     ];
+
+    protected $dates = [
+        'preferred_date',
+        'created',
+        'updated'
+    ];
+
+
+    public function getPreferredDateAttribute($value)
+    {
+        return Carbon::parse($value);
+    }
+
     public function provider()
     {
         return $this->belongsTo(Provider::class, 'provider_id', 'id');
@@ -87,5 +102,10 @@ class Booking extends Model
     public function items()
     {
         return $this->hasMany(BookingItem::class, 'booking_id', 'id');
+    }
+
+    protected function serializeDate(\DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }

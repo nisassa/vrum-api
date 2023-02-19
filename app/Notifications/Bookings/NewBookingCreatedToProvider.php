@@ -8,6 +8,8 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Mail\Bookings\BookingCreated;
 use App\Models\Booking;
+use App\NotificationChannels\LegacyNotificationsTable;
+use App\Models\NotificationTargetType;
 
 class NewBookingCreatedToProvider extends Notification
 {
@@ -65,11 +67,15 @@ class NewBookingCreatedToProvider extends Notification
      * @return array
      */
     public function toLegacyNotification($notifiable)
-    {
+    {   
         return [
-            // 'user_id' => $this->viewber->id,
-            // 'target_id' => $this->invitation->id,
-            // 'target_table' => $this->invitation->getTable(),
+            'user_id' => $notifiable->id,
+            'target_id' => $this->booking->id,
+            'target_table' => $this->booking->getTable(),
+            'target_sub_type_id' => NotificationTargetType::NEW_BOOKING_RECEIVED_ID,
+            'payload' => json_encode([
+                'message' => 'You received a new booking request for: '. $this->booking->preferred_date->format('dd-mm-yyyy H:i'). '. Booking Number: #'.$this->booking->id
+            ]),
             'created' => now(),
         ];
     }

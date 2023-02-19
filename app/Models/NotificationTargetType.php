@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use ViewberBase\Traits\Discards;
+use App\Traits\Discards;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class NotificationTargetType extends Model
 {
 	use Discards, HasFactory;
+
+    const NEW_BOOKING_RECEIVED_ID = 1;
 
     /**
      * @var string
@@ -37,7 +39,7 @@ class NotificationTargetType extends Model
 	    'id',
 	    'name',
 	    'created',
-        'updated'
+        'updated',
         'discard'
     ];
 
@@ -48,7 +50,7 @@ class NotificationTargetType extends Model
 	    'id',
 	    'name',
 	    'created',
-        'updated'
+        'updated',
         'discard'
     ];
     
